@@ -1,1 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paint Booth Calculator</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #1d4ed8;
+      --primary-dark: #1e40af;
+      --border: #dbe3ef;
+      --success: #047857;
+      --danger: #b91c1c;
+      --shadow: 0 4px 14px rgba(0,0,0,0.08);
+      --radius: 12px;
+    }
 
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .topbar select {
+      min-width: 170px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 1.3rem;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .row.two {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 13px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus {
+      outline: 2px solid #93c5fd;
+      border-color: var(--primary);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .actions {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    button.secondary {
+      background: #6b7280;
+    }
+
+    button.danger {
+      background: var(--danger);
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .result-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      background: #fafcff;
+    }
+
+    .result-label {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .result-value {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .section-title {
+      margin-top: 18px;
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+      color: var(--primary-dark);
+      font-weight: bold;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .success {
+      color: var(--success);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="appTitle">Paint Booth Calculator</h1>
+    <p id="appSubtitle">Calculate wall coating and floor mat requirements</p>
+  </header>
+
+  <div class="container">
+    <div class="topbar">
+      <select id="languageSelect" aria-label="Language">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+      </select>
+
+      <select id="unitSelect" aria-label="Units">
+        <option value="imperial">Imperial (ft, gal)</option>
+        <option value="metric">Metric (m, L)</option>
+      </select>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2 id="inputsTitle">Booth Inputs</h2>
+
+        <div class="row two">
+          <div>
+            <label id="widthLabel" for="width">Internal Width</label>
+            <input type="number" id="width" step="0.01" min="0" value="14" />
+          </div>
+          <div>
+            <label id="heightLabel" for="height">Internal Height</label>
+            <input type="number" id="height" step="0.01" min="0" value="9" />
+          </div>
+        </div>
+
+        <div class="row two">
+          <div>
+            <label id="lengthLabel" for="length">Internal Length</label>
+            <input type="number" id="length" step="0.01" min="0" value="27" />
+          </div>
+          <div>
+            <label id="deltaLabel" for="deltaT">Temperature Difference</label>
+            <input type="number" id="deltaT" step="0.01" min="0" placeholder="Optional" />
+          </div>
+        </div>
+
+        <div class="section-title" id="presetSectionTitle">Presets</div>
+
+        <div class="row two">
+          <div>
+            <label id="presetNameLabel" for="presetName">Preset Name</label>
+            <input type="text" id="presetName" placeholder="Example: Standard Booth" />
+          </div>
+          <div>
+            <label id="presetLoadLabel" for="presetSelect">Load Preset</label>
+            <select id="presetSelect">
+              <option value="">Select a saved preset</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="savePresetBtn">Save Preset</button>
+          <button id="deletePresetBtn" class="danger">Delete Preset</button>
+          <button id="resetBtn" class="secondary">Reset</button>
+        </div>
+
+        <div class="section-title" id="exportSectionTitle">Export</div>
+
+        <div class="actions">
+          <button id="exportCsvBtn">Export CSV</button>
+        </div>
+
+        <p class="note" id="noteText">
+          This calculator uses internal booth dimensions only. Openings and pits are not subtracted.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2 id="resultsTitle">Results</h2>
+
+        <div class="section-title" id="wallSectionTitle">Wall Coating</div>
+        <div class="results-grid">
+          <div class="result-box">
+            <div class="result-label" id="wallAreaLabel">Wall Area</div>
+            <div class="result-value" id="wallAreaResult">-</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label" id="gallonsLabel">Product Needed</div>
+            <div class="result-value" id="gallonsResult">-</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label" id="casesLabel">Cases Needed</div>
+            <div class="result-value" id="casesResult">-</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label" id="weightLabel">Estimated Product Weight</div>
+            <div class="result-value" id="weightResult">-</div>
+          </div>
+        </div>
+
+        <div class="section-title" id="floorSectionTitle">Floor Mat</div>
+        <div class="results-grid">
+          <div class="result-box">
+            <div class="result-label" id="floorAreaLabel">Floor Area</div>
+            <div class="result-value" id="floorAreaResult">-</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label" id="matsLabel">Mats Needed</div>
+            <div class="result-value" id="matsResult">-</div>
+          </div>
+        </div>
+
+        <div class="section-title" id="heatSectionTitle">Heat Estimate</div>
+        <div class="results-grid">
+          <div class="result-box">
+            <div class="result-label" id="volumeLabel">Booth Volume</div>
+            <div class="result-value" id="volumeResult">-</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label" id="btuLabel">Estimated Heat Load</div>
+            <div class="result-value" id="btuResult">-</div>
+          </div>
+        </div>
+
+        <div class="footer-note" id="footerNote">
+          Coverage used: 267 sq ft per gallon for wall coating, 4 gallons per case, and 400 sq ft per floor mat.
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const constants = {
+      wallCoverageSqFtPerGallon: 267,
+      gallonsPerCase: 4,
+      wallWeightLbPerGallon: 8.6,
+      floorMatCoverageSqFt: 400,
+      sqFtToSqM: 0.092903,
+      gallonToLiter: 3.78541,
+      lbToKg: 0.453592,
+      cuFtToCuM: 0.0283168
+    };
+
+    const translations = {
+      en: {
+        appTitle: "Paint Booth Calculator",
+        appSubtitle: "Calculate wall coating and floor mat requirements",
+        inputsTitle: "Booth Inputs",
+        widthLabel: "Internal Width",
+        heightLabel: "Internal Height",
+        lengthLabel: "Internal Length",
+        deltaLabelImperial: "Temperature Difference (°F)",
+        deltaLabelMetric: "Temperature Difference (°C)",
+        presetSectionTitle: "Presets",
+        presetNameLabel: "Preset Name",
+        presetLoadLabel: "Load Preset",
+        savePresetBtn: "Save Preset",
+        deletePresetBtn: "Delete Preset",
+        resetBtn: "Reset",
+        exportSectionTitle: "Export",
+        exportCsvBtn: "Export CSV",
+        noteText: "This calculator uses internal booth dimensions only. Openings and pits are not subtracted.",
+        resultsTitle: "Results",
+        wallSectionTitle: "Wall Coating",
+        wallAreaLabel: "Wall Area",
+        gallonsLabel: "Product Needed",
+        casesLabel: "Cases Needed",
+        weightLabel: "Estimated Product Weight",
+        floorSectionTitle: "Floor Mat",
+        floorAreaLabel: "Floor Area",
+        matsLabel: "Mats Needed",
+        heatSectionTitle: "Heat Estimate",
+        volumeLabel: "Booth Volume",
+        btuLabel: "Estimated Heat Load",
+        footerNote: "Coverage used: 267 sq ft per gallon for wall coating, 4 gallons per case, and 400 sq ft per floor mat.",
+        presetPlaceholder: "Example: Standard Booth",
+        presetDefaultOption: "Select a saved preset",
+        optionalPlaceholder: "Optional",
+        toastPresetSaved: "Preset saved",
+        toastPresetDeleted: "Preset deleted",
+        toastPresetLoaded: "Preset loaded",
+        toastNeedPreset: "Please select a preset",
+        toastCsvExported: "CSV exported",
+        toastReset: "Calculator reset"
+      },
+      es: {
+        appTitle: "Calculadora de Cabina de Pintura",
+        appSubtitle: "Calcule el recubrimiento de paredes y la cantidad de tapetes para piso",
+        inputsTitle: "Datos de la Cabina",
+        widthLabel: "Ancho Interno",
+        heightLabel: "Altura Interna",
+        lengthLabel: "Longitud Interna",
+        deltaLabelImperial: "Diferencia de Temperatura (°F)",
+        deltaLabelMetric: "Diferencia de Temperatura (°C)",
+        presetSectionTitle: "Configuraciones Guardadas",
+        presetNameLabel: "Nombre de Configuración",
+        presetLoadLabel: "Cargar Configuración",
+        savePresetBtn: "Guardar Configuración",
+        deletePresetBtn: "Eliminar Configuración",
+        resetBtn: "Restablecer",
+        exportSectionTitle: "Exportar",
+        exportCsvBtn: "Exportar CSV",
+        noteText: "Esta calculadora usa únicamente las dimensiones internas de la cabina. No se descuentan aperturas ni fosas.",
+        resultsTitle: "Resultados",
+        wallSectionTitle: "Recubrimiento de Paredes",
+        wallAreaLabel: "Área de Pared",
+        gallonsLabel: "Producto Necesario",
+        casesLabel: "Cajas Necesarias",
+        weightLabel: "Peso Estimado del Producto",
+        floorSectionTitle: "Tapete de Piso",
+        floorAreaLabel: "Área de Piso",
+        matsLabel: "Tapetes Necesarios",
+        heatSectionTitle: "Estimación de Calor",
+        volumeLabel: "Volumen de la Cabina",
+        btuLabel: "Carga de Calor Estimada",
+        footerNote: "Cobertura usada: 267 pies² por galón para recubrimiento de pared, 4 galones por caja y 400 pies² por tapete de piso.",
+        presetPlaceholder: "Ejemplo: Cabina Estándar",
+        presetDefaultOption: "Seleccione una configuración guardada",
+        optionalPlaceholder: "Opcional",
+        toastPresetSaved: "Configuración guardada",
+        toastPresetDeleted: "Configuración eliminada",
+        toastPresetLoaded: "Configuración cargada",
+        toastNeedPreset: "Seleccione una configuración",
+        toastCsvExported: "CSV exportado",
+        toastReset: "Calculadora restablecida"
+      }
+    };
+
+    const els = {
+      languageSelect: document.getElementById("languageSelect"),
+      unitSelect: document.getElementById("unitSelect"),
+      width: document.getElementById("width"),
+      height: document.getElementById("height"),
+      length: document.getElementById("length"),
+      deltaT: document.getElementById("deltaT"),
+      presetName: document.getElementById("presetName"),
+      presetSelect: document.getElementById("presetSelect"),
+      savePresetBtn: document.getElementById("savePresetBtn"),
+      deletePresetBtn: document.getElementById("deletePresetBtn"),
+      resetBtn: document.getElementById("resetBtn"),
+      exportCsvBtn: document.getElementById("exportCsvBtn"),
+
+      appTitle: document.getElementById("appTitle"),
+      appSubtitle: document.getElementById("appSubtitle"),
+      inputsTitle: document.getElementById("inputsTitle"),
+      widthLabel: document.getElementById("widthLabel"),
+      heightLabel: document.getElementById("heightLabel"),
+      lengthLabel: document.getElementById("lengthLabel"),
+      deltaLabel: document.getElementById("deltaLabel"),
+      presetSectionTitle: document.getElementById("presetSectionTitle"),
+      presetNameLabel: document.getElementById("presetNameLabel"),
+      presetLoadLabel: document.getElementById("presetLoadLabel"),
+      exportSectionTitle: document.getElementById("exportSectionTitle"),
+      noteText: document.getElementById("noteText"),
+      resultsTitle: document.getElementById("resultsTitle"),
+      wallSectionTitle: document.getElementById("wallSectionTitle"),
+      wallAreaLabel: document.getElementById("wallAreaLabel"),
+      gallonsLabel: document.getElementById("gallonsLabel"),
+      casesLabel: document.getElementById("casesLabel"),
+      weightLabel: document.getElementById("weightLabel"),
+      floorSectionTitle: document.getElementById("floorSectionTitle"),
+      floorAreaLabel: document.getElementById("floorAreaLabel"),
+      matsLabel: document.getElementById("matsLabel"),
+      heatSectionTitle: document.getElementById("heatSectionTitle"),
+      volumeLabel: document.getElementById("volumeLabel"),
+      btuLabel: document.getElementById("btuLabel"),
+      footerNote: document.getElementById("footerNote"),
+
+      wallAreaResult: document.getElementById("wallAreaResult"),
+      gallonsResult: document.getElementById("gallonsResult"),
+      casesResult: document.getElementById("casesResult"),
+      weightResult: document.getElementById("weightResult"),
+      floorAreaResult: document.getElementById("floorAreaResult"),
+      matsResult: document.getElementById("matsResult"),
+      volumeResult: document.getElementById("volumeResult"),
+      btuResult: document.getElementById("btuResult")
+    };
+
+    function getLanguage() {
+      return els.languageSelect.value;
+    }
+
+    function getUnits() {
+      return els.unitSelect.value;
+    }
+
+    function t(key) {
+      return translations[getLanguage()][key];
+    }
+
+    function formatNumber(value, decimals = 2) {
+      return Number(value).toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function updateLabels() {
+      const units = getUnits();
+
+      els.appTitle.textContent = t("appTitle");
+      els.appSubtitle.textContent = t("appSubtitle");
+      els.inputsTitle.textContent = t("inputsTitle");
+      els.widthLabel.textContent = `${t("widthLabel")} ${units === "imperial" ? "(ft)" : "(m)"}`;
+      els.heightLabel.textContent = `${t("heightLabel")} ${units === "imperial" ? "(ft)" : "(m)"}`;
+      els.lengthLabel.textContent = `${t("lengthLabel")} ${units === "imperial" ? "(ft)" : "(m)"}`;
+      els.deltaLabel.textContent = units === "imperial" ? t("deltaLabelImperial") : t("deltaLabelMetric");
+      els.presetSectionTitle.textContent = t("presetSectionTitle");
+      els.presetNameLabel.textContent = t("presetNameLabel");
+      els.presetLoadLabel.textContent = t("presetLoadLabel");
+      els.savePresetBtn.textContent = t("savePresetBtn");
+      els.deletePresetBtn.textContent = t("deletePresetBtn");
+      els.resetBtn.textContent = t("resetBtn");
+      els.exportSectionTitle.textContent = t("exportSectionTitle");
+      els.exportCsvBtn.textContent = t("exportCsvBtn");
+      els.noteText.textContent = t("noteText");
+      els.resultsTitle.textContent = t("resultsTitle");
+      els.wallSectionTitle.textContent = t("wallSectionTitle");
+      els.wallAreaLabel.textContent = t("wallAreaLabel");
+      els.gallonsLabel.textContent = t("gallonsLabel");
+      els.casesLabel.textContent = t("casesLabel");
+      els.weightLabel.textContent = t("weightLabel");
+      els.floorSectionTitle.textContent = t("floorSectionTitle");
+      els.floorAreaLabel.textContent = t("floorAreaLabel");
+      els.matsLabel.textContent = t("matsLabel");
+      els.heatSectionTitle.textContent = t("heatSectionTitle");
+      els.volumeLabel.textContent = t("volumeLabel");
+      els.btuLabel.textContent = t("btuLabel");
+      els.footerNote.textContent = t("footerNote");
+      els.presetName.placeholder = t("presetPlaceholder");
+      els.deltaT.placeholder = t("optionalPlaceholder");
+
+      populatePresetDropdown();
+    }
+
+    function toFeet(value) {
+      return getUnits() === "imperial" ? value : value * 3.28084;
+    }
+
+    function calculate() {
+      const widthInput = parseFloat(els.width.value) || 0;
+      const heightInput = parseFloat(els.height.value) || 0;
+      const lengthInput = parseFloat(els.length.value) || 0;
+      const deltaInput = parseFloat(els.deltaT.value);
+
+      const widthFt = toFeet(widthInput);
+      const heightFt = toFeet(heightInput);
+      const lengthFt = toFeet(lengthInput);
+
+      const wallAreaFt2 = 2 * (widthFt * heightFt) + 2 * (lengthFt * heightFt);
+      const gallonsNeeded = wallAreaFt2 / constants.wallCoverageSqFtPerGallon;
+      const casesNeeded = Math.ceil(gallonsNeeded / constants.gallonsPerCase);
+      const weightLb = gallonsNeeded * constants.wallWeightLbPerGallon;
+
+      const floorAreaFt2 = widthFt * lengthFt;
+      const matsNeeded = Math.ceil(floorAreaFt2 / constants.floorMatCoverageSqFt);
+
+      const volumeFt3 = widthFt * heightFt * lengthFt;
+
+      let deltaF = null;
+      if (!isNaN(deltaInput)) {
+        deltaF = getUnits() === "imperial" ? deltaInput : deltaInput * 9 / 5;
+      }
+
+      const btu = deltaF !== null ? volumeFt3 * deltaF * 0.24 : null;
+
+      return {
+        widthInput,
+        heightInput,
+        lengthInput,
+        deltaInput,
+        wallAreaFt2,
+        gallonsNeeded,
+        casesNeeded,
+        weightLb,
+        floorAreaFt2,
+        matsNeeded,
+        volumeFt3,
+        btu
+      };
+    }
+
+    function renderResults() {
+      const r = calculate();
+      const units = getUnits();
+
+      if (units === "imperial") {
+        els.wallAreaResult.textContent = `${formatNumber(r.wallAreaFt2, 0)} ft²`;
+        els.gallonsResult.textContent = `${formatNumber(r.gallonsNeeded, 2)} gal`;
+        els.weightResult.textContent = `${formatNumber(r.weightLb, 1)} lb`;
+        els.floorAreaResult.textContent = `${formatNumber(r.floorAreaFt2, 0)} ft²`;
+        els.volumeResult.textContent = `${formatNumber(r.volumeFt3, 0)} ft³`;
+      } else {
+        els.wallAreaResult.textContent = `${formatNumber(r.wallAreaFt2 * constants.sqFtToSqM, 2)} m²`;
+        els.gallonsResult.textContent = `${formatNumber(r.gallonsNeeded * constants.gallonToLiter, 2)} L`;
+        els.weightResult.textContent = `${formatNumber(r.weightLb * constants.lbToKg, 2)} kg`;
+        els.floorAreaResult.textContent = `${formatNumber(r.floorAreaFt2 * constants.sqFtToSqM, 2)} m²`;
+        els.volumeResult.textContent = `${formatNumber(r.volumeFt3 * constants.cuFtToCuM, 2)} m³`;
+      }
+
+      els.casesResult.textContent = `${formatNumber(r.casesNeeded, 0)}`;
+      els.matsResult.textContent = `${formatNumber(r.matsNeeded, 0)}`;
+      els.btuResult.textContent = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "-";
+    }
+
+    function getPresetKey() {
+      return "paintBoothCalculatorPresets";
+    }
+
+    function loadPresets() {
+      const raw = localStorage.getItem(getPresetKey());
+      return raw ? JSON.parse(raw) : [];
+    }
+
+    function savePresetsToStorage(presets) {
+      localStorage.setItem(getPresetKey(), JSON.stringify(presets));
+    }
+
+    function populatePresetDropdown() {
+      const presets = loadPresets();
+      const current = els.presetSelect.value;
+
+      els.presetSelect.innerHTML = "";
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = t("presetDefaultOption");
+      els.presetSelect.appendChild(defaultOption);
+
+      presets.forEach((preset, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = preset.name;
+        els.presetSelect.appendChild(option);
+      });
+
+      els.presetSelect.value = current;
+    }
+
+    function savePreset() {
+      const presets = loadPresets();
+      const name = els.presetName.value.trim() || `Preset ${presets.length + 1}`;
+
+      const preset = {
+        name,
+        language: getLanguage(),
+        units: getUnits(),
+        width: els.width.value,
+        height: els.height.value,
+        length: els.length.value,
+        deltaT: els.deltaT.value
+      };
+
+      presets.push(preset);
+      savePresetsToStorage(presets);
+      populatePresetDropdown();
+      els.presetName.value = "";
+      alert(t("toastPresetSaved"));
+    }
+
+    function loadSelectedPreset() {
+      const index = els.presetSelect.value;
+      if (index === "") return;
+
+      const presets = loadPresets();
+      const preset = presets[Number(index)];
+      if (!preset) return;
+
+      els.languageSelect.value = preset.language || "en";
+      els.unitSelect.value = preset.units || "imperial";
+      els.width.value = preset.width;
+      els.height.value = preset.height;
+      els.length.value = preset.length;
+      els.deltaT.value = preset.deltaT;
+
+      updateLabels();
+      renderResults();
+      alert(t("toastPresetLoaded"));
+    }
+
+    function deletePreset() {
+      const index = els.presetSelect.value;
+      if (index === "") {
+        alert(t("toastNeedPreset"));
+        return;
+      }
+
+      const presets = loadPresets();
+      presets.splice(Number(index), 1);
+      savePresetsToStorage(presets);
+      populatePresetDropdown();
+      alert(t("toastPresetDeleted"));
+    }
+
+    function resetForm() {
+      els.languageSelect.value = "en";
+      els.unitSelect.value = "imperial";
+      els.width.value = 14;
+      els.height.value = 9;
+      els.length.value = 27;
+      els.deltaT.value = "";
+      els.presetName.value = "";
+      updateLabels();
+      renderResults();
+      alert(t("toastReset"));
+    }
+
+    function exportCsv() {
+      const r = calculate();
+      const units = getUnits();
+
+      const wallArea = units === "imperial"
+        ? `${formatNumber(r.wallAreaFt2, 0)} ft²`
+        : `${formatNumber(r.wallAreaFt2 * constants.sqFtToSqM, 2)} m²`;
+
+      const productNeeded = units === "imperial"
+        ? `${formatNumber(r.gallonsNeeded, 2)} gal`
+        : `${formatNumber(r.gallonsNeeded * constants.gallonToLiter, 2)} L`;
+
+      const weight = units === "imperial"
+        ? `${formatNumber(r.weightLb, 1)} lb`
+        : `${formatNumber(r.weightLb * constants.lbToKg, 2)} kg`;
+
+      const floorArea = units === "imperial"
+        ? `${formatNumber(r.floorAreaFt2, 0)} ft²`
+        : `${formatNumber(r.floorAreaFt2 * constants.sqFtToSqM, 2)} m²`;
+
+      const volume = units === "imperial"
+        ? `${formatNumber(r.volumeFt3, 0)} ft³`
+        : `${formatNumber(r.volumeFt3 * constants.cuFtToCuM, 2)} m³`;
+
+      const rows = [
+        ["Language", getLanguage()],
+        ["Units", units],
+        ["Width Input", r.widthInput],
+        ["Height Input", r.heightInput],
+        ["Length Input", r.lengthInput],
+        ["Temperature Difference Input", isNaN(r.deltaInput) ? "" : r.deltaInput],
+        ["Wall Area", wallArea],
+        ["Product Needed", productNeeded],
+        ["Cases Needed", r.casesNeeded],
+        ["Estimated Product Weight", weight],
+        ["Floor Area", floorArea],
+        ["Mats Needed", r.matsNeeded],
+        ["Booth Volume", volume],
+        ["Estimated Heat Load", r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : ""]
+      ];
+
+      const csvContent = rows.map(row =>
+        row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(",")
+      ).join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "paint-booth-calculator-results.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      alert(t("toastCsvExported"));
+    }
+
+    function attachEvents() {
+      [els.languageSelect, els.unitSelect, els.width, els.height, els.length, els.deltaT]
+        .forEach(el => el.addEventListener("input", () => {
+          updateLabels();
+          renderResults();
+        }));
+
+      els.savePresetBtn.addEventListener("click", savePreset);
+      els.deletePresetBtn.addEventListener("click", deletePreset);
+      els.resetBtn.addEventListener("click", resetForm);
+      els.exportCsvBtn.addEventListener("click", exportCsv);
+      els.presetSelect.addEventListener("change", loadSelectedPreset);
+    }
+
+    function init() {
+      updateLabels();
+      populatePresetDropdown();
+      renderResults();
+      attachEvents();
+    }
+
+    init();
+  </script>
+</body>
+</html>
