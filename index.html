@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paint Booth Calculator</title>
+  <title>Bonding Solutions | Paint Booth Calculator</title>
   <style>
     :root {
       --bg: #f4f7fb;
       --card: #ffffff;
       --text: #1f2937;
       --muted: #6b7280;
-      --primary: #1d4ed8;
-      --primary-dark: #1e40af;
+      --primary: #0f5fa8;
+      --primary-dark: #0b4a83;
+      --accent: #1b75bb;
       --border: #dbe3ef;
       --danger: #b91c1c;
       --secondary: #6b7280;
       --shadow: 0 4px 14px rgba(0,0,0,0.08);
-      --radius: 12px;
+      --radius: 14px;
       --success: #047857;
     }
 
@@ -29,22 +30,42 @@
       color: var(--text);
     }
 
-    header {
-      background: var(--primary);
+    .app-header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       color: white;
-      padding: 20px 16px;
+      padding: 18px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
       text-align: center;
     }
 
-    header h1 {
-      margin: 0 0 8px;
+    .logo {
+      max-height: 78px;
+      width: auto;
+      background: white;
+      padding: 8px 12px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    }
+
+    .header-text h1 {
+      margin: 0 0 6px;
       font-size: 2rem;
     }
 
-    header p {
+    .header-text p {
       margin: 0;
       font-size: 1rem;
-      opacity: 0.95;
+      opacity: 0.96;
     }
 
     .container {
@@ -88,7 +109,8 @@
     h2 {
       margin-top: 0;
       margin-bottom: 16px;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
+      color: var(--primary-dark);
     }
 
     .row {
@@ -101,9 +123,6 @@
     @media (min-width: 640px) {
       .row.two {
         grid-template-columns: 1fr 1fr;
-      }
-      .row.three {
-        grid-template-columns: 1fr 1fr 1fr;
       }
     }
 
@@ -132,6 +151,7 @@
       border: none;
       cursor: pointer;
       font-weight: bold;
+      transition: background 0.2s ease;
     }
 
     button:hover {
@@ -233,9 +253,14 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1 id="appTitle">Paint Booth Calculator</h1>
-    <p id="appSubtitle">Calculate wall coating and floor mat requirements</p>
+  <header class="app-header">
+    <div class="header-inner">
+      <img src="logo.png" alt="Bonding Solutions Logo" class="logo" />
+      <div class="header-text">
+        <h1 id="appTitle">Paint Booth Calculator</h1>
+        <p id="appSubtitle">Calculate wall coating and floor mat requirements</p>
+      </div>
+    </div>
   </header>
 
   <div class="container">
@@ -615,6 +640,42 @@
       el.btuResult.textContent = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "-";
     }
 
+    function loadPresets() {
+      const raw = localStorage.getItem(APP.presetKey);
+      try {
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function savePresetsToStorage(presets) {
+      localStorage.setItem(APP.presetKey, JSON.stringify(presets));
+    }
+
+    function populatePresetDropdown() {
+      const presets = loadPresets();
+      const currentValue = el.presetSelect.value;
+
+      el.presetSelect.innerHTML = "";
+
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = t("presetDefaultOption");
+      el.presetSelect.appendChild(defaultOption);
+
+      presets.forEach((preset, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = preset.name;
+        el.presetSelect.appendChild(option);
+      });
+
+      if (currentValue !== "") {
+        el.presetSelect.value = currentValue;
+      }
+    }
+
     function updateLabels() {
       const isImperial = units() === "imperial";
 
@@ -651,42 +712,6 @@
       el.deltaT.placeholder = t("optionalPlaceholder");
 
       populatePresetDropdown();
-    }
-
-    function loadPresets() {
-      const raw = localStorage.getItem(APP.presetKey);
-      try {
-        return raw ? JSON.parse(raw) : [];
-      } catch {
-        return [];
-      }
-    }
-
-    function savePresetsToStorage(presets) {
-      localStorage.setItem(APP.presetKey, JSON.stringify(presets));
-    }
-
-    function populatePresetDropdown() {
-      const presets = loadPresets();
-      const currentValue = el.presetSelect.value;
-
-      el.presetSelect.innerHTML = "";
-
-      const defaultOption = document.createElement("option");
-      defaultOption.value = "";
-      defaultOption.textContent = t("presetDefaultOption");
-      el.presetSelect.appendChild(defaultOption);
-
-      presets.forEach((preset, index) => {
-        const option = document.createElement("option");
-        option.value = index;
-        option.textContent = preset.name;
-        el.presetSelect.appendChild(option);
-      });
-
-      if (currentValue !== "") {
-        el.presetSelect.value = currentValue;
-      }
     }
 
     function savePreset() {
@@ -816,13 +841,19 @@
     }
 
     function attachEvents() {
-      [el.languageSelect, el.unitSelect, el.width, el.height, el.length, el.deltaT]
-        .forEach(item => {
-          item.addEventListener("input", () => {
-            updateLabels();
-            renderResults();
-          });
-        });
+      el.languageSelect.addEventListener("change", () => {
+        updateLabels();
+        renderResults();
+      });
+
+      el.unitSelect.addEventListener("change", () => {
+        updateLabels();
+        renderResults();
+      });
+
+      [el.width, el.height, el.length, el.deltaT].forEach(item => {
+        item.addEventListener("input", renderResults);
+      });
 
       el.savePresetBtn.addEventListener("click", savePreset);
       el.deletePresetBtn.addEventListener("click", deletePreset);
@@ -836,6 +867,11 @@
       renderResults();
       attachEvents();
     }
+
+    init();
+  </script>
+</body>
+</html>
 
     init();
   </script>
