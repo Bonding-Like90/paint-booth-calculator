@@ -267,6 +267,7 @@
       <select id="languageSelect" aria-label="Language">
         <option value="en">English</option>
         <option value="es">Español</option>
+        <option value="fr">Français</option>
       </select>
 
       <select id="unitSelect" aria-label="Units">
@@ -509,6 +510,53 @@
         csvExported: "CSV exportado",
         resetDone: "Calculadora restablecida",
         emailOpened: "Borrador de correo abierto"
+      },
+      fr: {
+        appTitle: "Calculateur de Cabine de Peinture",
+        appSubtitle: "Calculez les besoins en revêtement mural et en tapis de sol",
+        inputsTitle: "Données de la Cabine",
+        companyNameLabel: "Nom de l’Entreprise",
+        purchaseOrderLabel: "Bon de Commande",
+        widthLabel: "Largeur Intérieure",
+        heightLabel: "Hauteur Intérieure",
+        lengthLabel: "Longueur Intérieure",
+        deltaLabelImperial: "Différence de Température (°F)",
+        deltaLabelMetric: "Différence de Température (°C)",
+        presetSectionTitle: "Configurations Enregistrées",
+        presetNameLabel: "Nom de la Configuration",
+        presetLoadLabel: "Charger une Configuration",
+        savePresetBtn: "Enregistrer la Configuration",
+        deletePresetBtn: "Supprimer la Configuration",
+        resetBtn: "Réinitialiser",
+        exportSectionTitle: "Export / Commande",
+        exportCsvBtn: "Exporter CSV",
+        emailOrderBtn: "Envoyer la Commande par Courriel",
+        noteText: "Cette calculatrice utilise uniquement les dimensions intérieures de la cabine. Les ouvertures et fosses ne sont pas soustraites.",
+        resultsTitle: "Résultats",
+        wallSectionTitle: "Revêtement des Murs",
+        wallAreaLabel: "Surface Murale",
+        productNeededLabel: "Produit Nécessaire",
+        casesLabel: "Caisses Nécessaires",
+        weightLabel: "Poids Estimé du Produit",
+        floorSectionTitle: "Tapis de Sol",
+        floorAreaLabel: "Surface du Sol",
+        matsLabel: "Tapis Nécessaires",
+        heatSectionTitle: "Estimation de Chaleur",
+        volumeLabel: "Volume de la Cabine",
+        btuLabel: "Charge Thermique Estimée",
+        footerNote: "Couverture utilisée : 150 pi² par gallon pour le revêtement mural, 4 gallons par caisse et 400 pi² par tapis de sol.",
+        companyPlaceholder: "Exemple : ABC Collision",
+        purchaseOrderPlaceholder: "Exemple : BC-12345",
+        presetPlaceholder: "Exemple : Cabine Standard",
+        presetDefaultOption: "Sélectionnez une configuration enregistrée",
+        optionalPlaceholder: "Optionnel",
+        presetSaved: "Configuration enregistrée",
+        presetDeleted: "Configuration supprimée",
+        presetLoaded: "Configuration chargée",
+        selectPreset: "Veuillez sélectionner une configuration",
+        csvExported: "CSV exporté",
+        resetDone: "Calculatrice réinitialisée",
+        emailOpened: "Brouillon de courriel ouvert"
       }
     };
 
@@ -920,7 +968,7 @@
         `Height: ${r.input.heightInput}`,
         `Length: ${r.input.lengthInput}`,
         `Units: ${units()}`,
-        r.input.deltaInput !== null ? `Temperature Difference: ${r.input.deltaInput}` : `Temperature Difference:`,
+        `Temperature Difference: ${r.input.deltaInput !== null ? r.input.deltaInput : ""}`,
         ``,
         `Results:`,
         `Wall Area: ${wallArea}`,
