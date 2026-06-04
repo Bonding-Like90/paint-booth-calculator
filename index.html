@@ -18,7 +18,6 @@
       --secondary: #6b7280;
       --shadow: 0 4px 14px rgba(0,0,0,0.08);
       --radius: 14px;
-      --success: #047857;
     }
 
     * { box-sizing: border-box; }
@@ -177,8 +176,8 @@
       .actions.three {
         grid-template-columns: repeat(3, 1fr);
       }
-      .actions.one {
-        grid-template-columns: 1fr;
+      .actions.two {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -243,7 +242,7 @@
       pointer-events: none;
       transition: all 0.25s ease;
       z-index: 9999;
-      max-width: 300px;
+      max-width: 320px;
     }
 
     .toast.show {
@@ -255,7 +254,7 @@
 <body>
   <header class="app-header">
     <div class="header-inner">
-      <img src="logo.png" alt="Bonding Solutions Logo" class="logo" />
+      <img src="logo.png" alt="Bonding Solutions Logo" class="logo" onerror="this.style.display='none'" />
       <div class="header-text">
         <h1 id="appTitle">Paint Booth Calculator</h1>
         <p id="appSubtitle">Calculate wall coating and floor mat requirements</p>
@@ -279,6 +278,17 @@
     <div class="grid">
       <section class="card">
         <h2 id="inputsTitle">Booth Inputs</h2>
+
+        <div class="row two">
+          <div>
+            <label id="companyNameLabel" for="companyName">Company Name</label>
+            <input type="text" id="companyName" placeholder="Example: ABC Collision" />
+          </div>
+          <div>
+            <label id="purchaseOrderLabel" for="purchaseOrder">Purchase Order</label>
+            <input type="text" id="purchaseOrder" placeholder="Example: PO-12345" />
+          </div>
+        </div>
 
         <div class="row two">
           <div>
@@ -323,9 +333,10 @@
           <button id="resetBtn" class="secondary">Reset</button>
         </div>
 
-        <div class="section-title" id="exportSectionTitle">Export</div>
-        <div class="actions one">
+        <div class="section-title" id="exportSectionTitle">Export / Order</div>
+        <div class="actions two">
           <button id="exportCsvBtn">Export CSV</button>
+          <button id="emailOrderBtn">Email Order</button>
         </div>
 
         <p class="note" id="noteText">
@@ -399,7 +410,9 @@
       gallonToLiter: 3.78541,
       lbToKg: 0.453592,
       cuFtToCuM: 0.0283168,
-      presetKey: "paintBoothCalculatorPresets"
+      presetKey: "paintBoothCalculatorPresets",
+      emailRecipients: "eric@bondingsolutions.net,jamillerplio@live.com",
+      emailSubject: "Like 90 order"
     };
 
     const TEXT = {
@@ -407,6 +420,8 @@
         appTitle: "Paint Booth Calculator",
         appSubtitle: "Calculate wall coating and floor mat requirements",
         inputsTitle: "Booth Inputs",
+        companyNameLabel: "Company Name",
+        purchaseOrderLabel: "Purchase Order",
         widthLabel: "Internal Width",
         heightLabel: "Internal Height",
         lengthLabel: "Internal Length",
@@ -418,8 +433,9 @@
         savePresetBtn: "Save Preset",
         deletePresetBtn: "Delete Preset",
         resetBtn: "Reset",
-        exportSectionTitle: "Export",
+        exportSectionTitle: "Export / Order",
         exportCsvBtn: "Export CSV",
+        emailOrderBtn: "Email Order",
         noteText: "This calculator uses internal booth dimensions only. Openings and pits are not subtracted.",
         resultsTitle: "Results",
         wallSectionTitle: "Wall Coating",
@@ -434,6 +450,8 @@
         volumeLabel: "Booth Volume",
         btuLabel: "Estimated Heat Load",
         footerNote: "Coverage used: 150 sq ft per gallon for wall coating, 4 gallons per case, and 400 sq ft per floor mat.",
+        companyPlaceholder: "Example: ABC Collision",
+        purchaseOrderPlaceholder: "Example: PO-12345",
         presetPlaceholder: "Example: Standard Booth",
         presetDefaultOption: "Select a saved preset",
         optionalPlaceholder: "Optional",
@@ -442,12 +460,15 @@
         presetLoaded: "Preset loaded",
         selectPreset: "Please select a preset",
         csvExported: "CSV exported",
-        resetDone: "Calculator reset"
+        resetDone: "Calculator reset",
+        emailOpened: "Email draft opened"
       },
       es: {
         appTitle: "Calculadora de Cabina de Pintura",
         appSubtitle: "Calcule el recubrimiento de paredes y la cantidad de tapetes para piso",
         inputsTitle: "Datos de la Cabina",
+        companyNameLabel: "Nombre de la Empresa",
+        purchaseOrderLabel: "Orden de Compra",
         widthLabel: "Ancho Interno",
         heightLabel: "Altura Interna",
         lengthLabel: "Longitud Interna",
@@ -459,8 +480,9 @@
         savePresetBtn: "Guardar Configuración",
         deletePresetBtn: "Eliminar Configuración",
         resetBtn: "Restablecer",
-        exportSectionTitle: "Exportar",
+        exportSectionTitle: "Exportar / Pedido",
         exportCsvBtn: "Exportar CSV",
+        emailOrderBtn: "Enviar Pedido por Correo",
         noteText: "Esta calculadora usa únicamente las dimensiones internas de la cabina. No se descuentan aperturas ni fosas.",
         resultsTitle: "Resultados",
         wallSectionTitle: "Recubrimiento de Paredes",
@@ -475,6 +497,8 @@
         volumeLabel: "Volumen de la Cabina",
         btuLabel: "Carga de Calor Estimada",
         footerNote: "Cobertura usada: 150 pies² por galón para recubrimiento de pared, 4 galones por caja y 400 pies² por tapete de piso.",
+        companyPlaceholder: "Ejemplo: ABC Collision",
+        purchaseOrderPlaceholder: "Ejemplo: PO-12345",
         presetPlaceholder: "Ejemplo: Cabina Estándar",
         presetDefaultOption: "Seleccione una configuración guardada",
         optionalPlaceholder: "Opcional",
@@ -483,13 +507,16 @@
         presetLoaded: "Configuración cargada",
         selectPreset: "Seleccione una configuración",
         csvExported: "CSV exportado",
-        resetDone: "Calculadora restablecida"
+        resetDone: "Calculadora restablecida",
+        emailOpened: "Borrador de correo abierto"
       }
     };
 
     const el = {
       languageSelect: document.getElementById("languageSelect"),
       unitSelect: document.getElementById("unitSelect"),
+      companyName: document.getElementById("companyName"),
+      purchaseOrder: document.getElementById("purchaseOrder"),
       width: document.getElementById("width"),
       height: document.getElementById("height"),
       length: document.getElementById("length"),
@@ -500,11 +527,14 @@
       deletePresetBtn: document.getElementById("deletePresetBtn"),
       resetBtn: document.getElementById("resetBtn"),
       exportCsvBtn: document.getElementById("exportCsvBtn"),
+      emailOrderBtn: document.getElementById("emailOrderBtn"),
       toast: document.getElementById("toast"),
 
       appTitle: document.getElementById("appTitle"),
       appSubtitle: document.getElementById("appSubtitle"),
       inputsTitle: document.getElementById("inputsTitle"),
+      companyNameLabel: document.getElementById("companyNameLabel"),
+      purchaseOrderLabel: document.getElementById("purchaseOrderLabel"),
       widthLabel: document.getElementById("widthLabel"),
       heightLabel: document.getElementById("heightLabel"),
       lengthLabel: document.getElementById("lengthLabel"),
@@ -572,6 +602,8 @@
 
     function getInputs() {
       return {
+        companyName: el.companyName.value.trim(),
+        purchaseOrder: el.purchaseOrder.value.trim(),
         widthInput: parseFloat(el.width.value) || 0,
         heightInput: parseFloat(el.height.value) || 0,
         lengthInput: parseFloat(el.length.value) || 0,
@@ -682,6 +714,8 @@
       el.appTitle.textContent = t("appTitle");
       el.appSubtitle.textContent = t("appSubtitle");
       el.inputsTitle.textContent = t("inputsTitle");
+      el.companyNameLabel.textContent = t("companyNameLabel");
+      el.purchaseOrderLabel.textContent = t("purchaseOrderLabel");
       el.widthLabel.textContent = `${t("widthLabel")} ${isImperial ? "(ft)" : "(m)"}`;
       el.heightLabel.textContent = `${t("heightLabel")} ${isImperial ? "(ft)" : "(m)"}`;
       el.lengthLabel.textContent = `${t("lengthLabel")} ${isImperial ? "(ft)" : "(m)"}`;
@@ -694,6 +728,7 @@
       el.resetBtn.textContent = t("resetBtn");
       el.exportSectionTitle.textContent = t("exportSectionTitle");
       el.exportCsvBtn.textContent = t("exportCsvBtn");
+      el.emailOrderBtn.textContent = t("emailOrderBtn");
       el.noteText.textContent = t("noteText");
       el.resultsTitle.textContent = t("resultsTitle");
       el.wallSectionTitle.textContent = t("wallSectionTitle");
@@ -708,6 +743,9 @@
       el.volumeLabel.textContent = t("volumeLabel");
       el.btuLabel.textContent = t("btuLabel");
       el.footerNote.textContent = t("footerNote");
+
+      el.companyName.placeholder = t("companyPlaceholder");
+      el.purchaseOrder.placeholder = t("purchaseOrderPlaceholder");
       el.presetName.placeholder = t("presetPlaceholder");
       el.deltaT.placeholder = t("optionalPlaceholder");
 
@@ -722,6 +760,8 @@
         name: el.presetName.value.trim() || `Preset ${presets.length + 1}`,
         language: lang(),
         unitSystem: units(),
+        companyName: input.companyName,
+        purchaseOrder: input.purchaseOrder,
         width: input.widthInput,
         height: input.heightInput,
         length: input.lengthInput,
@@ -745,6 +785,8 @@
 
       el.languageSelect.value = preset.language || "en";
       el.unitSelect.value = preset.unitSystem || "imperial";
+      el.companyName.value = preset.companyName || "";
+      el.purchaseOrder.value = preset.purchaseOrder || "";
       el.width.value = preset.width;
       el.height.value = preset.height;
       el.length.value = preset.length;
@@ -772,6 +814,8 @@
     function resetForm() {
       el.languageSelect.value = "en";
       el.unitSelect.value = "imperial";
+      el.companyName.value = "";
+      el.purchaseOrder.value = "";
       el.width.value = "14";
       el.height.value = "9";
       el.length.value = "27";
@@ -809,6 +853,8 @@
       const rows = [
         ["Language", lang()],
         ["Units", units()],
+        ["Company Name", r.input.companyName],
+        ["Purchase Order", r.input.purchaseOrder],
         ["Width Input", r.input.widthInput],
         ["Height Input", r.input.heightInput],
         ["Length Input", r.input.lengthInput],
@@ -840,6 +886,60 @@
       showToast(t("csvExported"));
     }
 
+    function emailOrder() {
+      const r = calculate();
+
+      const wallArea = units() === "imperial"
+        ? `${formatNumber(r.wallAreaFt2, 0)} ft²`
+        : `${formatNumber(r.wallAreaFt2 * APP.sqFtToSqM, 2)} m²`;
+
+      const productNeeded = units() === "imperial"
+        ? `${formatNumber(r.gallonsNeeded, 2)} gal`
+        : `${formatNumber(r.gallonsNeeded * APP.gallonToLiter, 2)} L`;
+
+      const weight = units() === "imperial"
+        ? `${formatNumber(r.weightLb, 1)} lb`
+        : `${formatNumber(r.weightLb * APP.lbToKg, 2)} kg`;
+
+      const floorArea = units() === "imperial"
+        ? `${formatNumber(r.floorAreaFt2, 0)} ft²`
+        : `${formatNumber(r.floorAreaFt2 * APP.sqFtToSqM, 2)} m²`;
+
+      const volume = units() === "imperial"
+        ? `${formatNumber(r.volumeFt3, 0)} ft³`
+        : `${formatNumber(r.volumeFt3 * APP.cuFtToCuM, 2)} m³`;
+
+      const heatLoad = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "Not provided";
+
+      const body = [
+        `Company Name: ${r.input.companyName || ""}`,
+        `Purchase Order: ${r.input.purchaseOrder || ""}`,
+        ``,
+        `Booth Dimensions:`,
+        `Width: ${r.input.widthInput}`,
+        `Height: ${r.input.heightInput}`,
+        `Length: ${r.input.lengthInput}`,
+        `Units: ${units()}`,
+        r.input.deltaInput !== null ? `Temperature Difference: ${r.input.deltaInput}` : `Temperature Difference:`,
+        ``,
+        `Results:`,
+        `Wall Area: ${wallArea}`,
+        `Product Needed: ${productNeeded}`,
+        `Cases Needed: ${r.casesNeeded}`,
+        `Estimated Product Weight: ${weight}`,
+        `Floor Area: ${floorArea}`,
+        `Mats Needed: ${r.matsNeeded}`,
+        `Booth Volume: ${volume}`,
+        `Estimated Heat Load: ${heatLoad}`
+      ].join("\n");
+
+      const mailtoLink =
+        `mailto:${APP.emailRecipients}?subject=${encodeURIComponent(APP.emailSubject)}&body=${encodeURIComponent(body)}`;
+
+      window.location.href = mailtoLink;
+      showToast(t("emailOpened"));
+    }
+
     function attachEvents() {
       el.languageSelect.addEventListener("change", () => {
         updateLabels();
@@ -851,7 +951,7 @@
         renderResults();
       });
 
-      [el.width, el.height, el.length, el.deltaT].forEach(item => {
+      [el.companyName, el.purchaseOrder, el.width, el.height, el.length, el.deltaT].forEach(item => {
         item.addEventListener("input", renderResults);
       });
 
@@ -859,6 +959,7 @@
       el.deletePresetBtn.addEventListener("click", deletePreset);
       el.resetBtn.addEventListener("click", resetForm);
       el.exportCsvBtn.addEventListener("click", exportCsv);
+      el.emailOrderBtn.addEventListener("click", emailOrder);
       el.presetSelect.addEventListener("change", loadSelectedPreset);
     }
 
@@ -867,11 +968,6 @@
       renderResults();
       attachEvents();
     }
-
-    init();
-  </script>
-</body>
-</html>
 
     init();
   </script>
