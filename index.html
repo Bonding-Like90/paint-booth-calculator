@@ -48,12 +48,13 @@
     }
 
     .logo {
-      max-height: 78px;
+      max-height: 70px;
       width: auto;
-      background: white;
-      padding: 8px 12px;
-      border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      display: block;
     }
 
     .header-text h1 {
@@ -254,7 +255,7 @@
 <body>
   <header class="app-header">
     <div class="header-inner">
-      <img src="logo.png" alt="Bonding Solutions Logo" class="logo" onerror="this.style.display='none'" />
+      <img src="logo-light.png" alt="Bonding Solutions Logo" class="logo" onerror="this.style.display='none'" />
       <div class="header-text">
         <h1 id="appTitle">Paint Booth Calculator</h1>
         <p id="appSubtitle">Calculate wall coating, floor mat, and Clear View requirements</p>
