@@ -257,7 +257,7 @@
       <img src="logo.png" alt="Bonding Solutions Logo" class="logo" onerror="this.style.display='none'" />
       <div class="header-text">
         <h1 id="appTitle">Paint Booth Calculator</h1>
-        <p id="appSubtitle">Calculate wall coating and floor mat requirements</p>
+        <p id="appSubtitle">Calculate wall coating, floor mat, and Clear View requirements</p>
       </div>
     </div>
   </header>
@@ -310,6 +310,19 @@
           <div>
             <label id="deltaLabel" for="deltaT">Temperature Difference (°F)</label>
             <input type="number" id="deltaT" step="0.01" min="0" placeholder="Optional" />
+          </div>
+        </div>
+
+        <div class="section-title" id="lightSectionTitle">Light Fixtures for Clear View</div>
+
+        <div class="row two">
+          <div>
+            <label id="ceilingLightsLabel" for="ceilingLights">Ceiling Light Fixtures</label>
+            <input type="number" id="ceilingLights" step="1" min="0" value="8" />
+          </div>
+          <div>
+            <label id="sidewallLightsLabel" for="sidewallLights">Sidewall Light Fixtures</label>
+            <input type="number" id="sidewallLights" step="1" min="0" value="6" />
           </div>
         </div>
 
@@ -380,6 +393,34 @@
           </div>
         </div>
 
+        <div class="section-title" id="clearViewSectionTitle">Clear View</div>
+        <div class="results-grid">
+          <div class="result-box">
+            <div class="result-label" id="totalLightsLabel">Total Lights</div>
+            <div class="result-value" id="totalLightsResult">-</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label" id="glassAreaLabel">Glass Area</div>
+            <div class="result-value" id="glassAreaResult">-</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label" id="clearViewNeededLabel">Clear View Needed</div>
+            <div class="result-value" id="clearViewNeededResult">-</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label" id="clearViewQuartsLabel">Equivalent Quarts</div>
+            <div class="result-value" id="clearViewQuartsResult">-</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label" id="clearViewPintsLabel">Equivalent Pints</div>
+            <div class="result-value" id="clearViewPintsResult">-</div>
+          </div>
+        </div>
+
+        <div class="footer-note" id="clearViewNote">
+          Based on 2 ft x 4 ft glass per light, at 400–500 sq ft per gallon. Typical booth use: 1 pint to 1 quart.
+        </div>
+
         <div class="section-title" id="heatSectionTitle">Heat Estimate</div>
         <div class="results-grid">
           <div class="result-box">
@@ -407,6 +448,9 @@
       gallonsPerCase: 4,
       wallWeightLbPerGallon: 8.6,
       floorMatCoverageSqFt: 400,
+      glassSqFtPerLight: 8,
+      clearViewCoverageLowSqFtPerGallon: 400,
+      clearViewCoverageHighSqFtPerGallon: 500,
       sqFtToSqM: 0.092903,
       gallonToLiter: 3.78541,
       lbToKg: 0.453592,
@@ -419,7 +463,7 @@
     const TEXT = {
       en: {
         appTitle: "Paint Booth Calculator",
-        appSubtitle: "Calculate wall coating and floor mat requirements",
+        appSubtitle: "Calculate wall coating, floor mat, and Clear View requirements",
         inputsTitle: "Booth Inputs",
         companyNameLabel: "Company Name",
         purchaseOrderLabel: "Purchase Order",
@@ -428,6 +472,9 @@
         lengthLabel: "Internal Length",
         deltaLabelImperial: "Temperature Difference (°F)",
         deltaLabelMetric: "Temperature Difference (°C)",
+        lightSectionTitle: "Light Fixtures for Clear View",
+        ceilingLightsLabel: "Ceiling Light Fixtures",
+        sidewallLightsLabel: "Sidewall Light Fixtures",
         presetSectionTitle: "Presets",
         presetNameLabel: "Preset Name",
         presetLoadLabel: "Load Preset",
@@ -447,6 +494,13 @@
         floorSectionTitle: "Floor Mat",
         floorAreaLabel: "Floor Area",
         matsLabel: "Mats Needed",
+        clearViewSectionTitle: "Clear View",
+        totalLightsLabel: "Total Lights",
+        glassAreaLabel: "Glass Area",
+        clearViewNeededLabel: "Clear View Needed",
+        clearViewQuartsLabel: "Equivalent Quarts",
+        clearViewPintsLabel: "Equivalent Pints",
+        clearViewNote: "Based on 2 ft x 4 ft glass per light, at 400–500 sq ft per gallon. Typical booth use: 1 pint to 1 quart.",
         heatSectionTitle: "Heat Estimate",
         volumeLabel: "Booth Volume",
         btuLabel: "Estimated Heat Load",
@@ -466,7 +520,7 @@
       },
       es: {
         appTitle: "Calculadora de Cabina de Pintura",
-        appSubtitle: "Calcule el recubrimiento de paredes y la cantidad de tapetes para piso",
+        appSubtitle: "Calcule recubrimiento de paredes, tapetes de piso y Clear View",
         inputsTitle: "Datos de la Cabina",
         companyNameLabel: "Nombre de la Empresa",
         purchaseOrderLabel: "Orden de Compra",
@@ -475,6 +529,9 @@
         lengthLabel: "Longitud Interna",
         deltaLabelImperial: "Diferencia de Temperatura (°F)",
         deltaLabelMetric: "Diferencia de Temperatura (°C)",
+        lightSectionTitle: "Lámparas para Clear View",
+        ceilingLightsLabel: "Lámparas de Techo",
+        sidewallLightsLabel: "Lámparas Laterales",
         presetSectionTitle: "Configuraciones Guardadas",
         presetNameLabel: "Nombre de Configuración",
         presetLoadLabel: "Cargar Configuración",
@@ -494,6 +551,13 @@
         floorSectionTitle: "Tapete de Piso",
         floorAreaLabel: "Área de Piso",
         matsLabel: "Tapetes Necesarios",
+        clearViewSectionTitle: "Clear View",
+        totalLightsLabel: "Total de Lámparas",
+        glassAreaLabel: "Área de Vidrio",
+        clearViewNeededLabel: "Clear View Necesario",
+        clearViewQuartsLabel: "Equivalente en Cuartos",
+        clearViewPintsLabel: "Equivalente en Pintas",
+        clearViewNote: "Basado en vidrio de 2 pies x 4 pies por lámpara, con cobertura de 400–500 pies² por galón. Uso típico por cabina: 1 pinta a 1 cuarto.",
         heatSectionTitle: "Estimación de Calor",
         volumeLabel: "Volumen de la Cabina",
         btuLabel: "Carga de Calor Estimada",
@@ -513,7 +577,7 @@
       },
       fr: {
         appTitle: "Calculateur de Cabine de Peinture",
-        appSubtitle: "Calculez les besoins en revêtement mural et en tapis de sol",
+        appSubtitle: "Calculez les besoins en revêtement mural, tapis de sol et Clear View",
         inputsTitle: "Données de la Cabine",
         companyNameLabel: "Nom de l’Entreprise",
         purchaseOrderLabel: "Bon de Commande",
@@ -522,6 +586,9 @@
         lengthLabel: "Longueur Intérieure",
         deltaLabelImperial: "Différence de Température (°F)",
         deltaLabelMetric: "Différence de Température (°C)",
+        lightSectionTitle: "Luminaires pour Clear View",
+        ceilingLightsLabel: "Luminaires de Plafond",
+        sidewallLightsLabel: "Luminaires Muraux",
         presetSectionTitle: "Configurations Enregistrées",
         presetNameLabel: "Nom de la Configuration",
         presetLoadLabel: "Charger une Configuration",
@@ -541,6 +608,13 @@
         floorSectionTitle: "Tapis de Sol",
         floorAreaLabel: "Surface du Sol",
         matsLabel: "Tapis Nécessaires",
+        clearViewSectionTitle: "Clear View",
+        totalLightsLabel: "Nombre Total de Luminaires",
+        glassAreaLabel: "Surface de Verre",
+        clearViewNeededLabel: "Clear View Nécessaire",
+        clearViewQuartsLabel: "Équivalent en Quarts",
+        clearViewPintsLabel: "Équivalent en Pintes",
+        clearViewNote: "Basé sur un verre de 2 pi x 4 pi par luminaire, avec une couverture de 400 à 500 pi² par gallon. Utilisation typique par cabine : 1 pinte à 1 quart.",
         heatSectionTitle: "Estimation de Chaleur",
         volumeLabel: "Volume de la Cabine",
         btuLabel: "Charge Thermique Estimée",
@@ -569,6 +643,8 @@
       height: document.getElementById("height"),
       length: document.getElementById("length"),
       deltaT: document.getElementById("deltaT"),
+      ceilingLights: document.getElementById("ceilingLights"),
+      sidewallLights: document.getElementById("sidewallLights"),
       presetName: document.getElementById("presetName"),
       presetSelect: document.getElementById("presetSelect"),
       savePresetBtn: document.getElementById("savePresetBtn"),
@@ -587,6 +663,9 @@
       heightLabel: document.getElementById("heightLabel"),
       lengthLabel: document.getElementById("lengthLabel"),
       deltaLabel: document.getElementById("deltaLabel"),
+      lightSectionTitle: document.getElementById("lightSectionTitle"),
+      ceilingLightsLabel: document.getElementById("ceilingLightsLabel"),
+      sidewallLightsLabel: document.getElementById("sidewallLightsLabel"),
       presetSectionTitle: document.getElementById("presetSectionTitle"),
       presetNameLabel: document.getElementById("presetNameLabel"),
       presetLoadLabel: document.getElementById("presetLoadLabel"),
@@ -601,6 +680,13 @@
       floorSectionTitle: document.getElementById("floorSectionTitle"),
       floorAreaLabel: document.getElementById("floorAreaLabel"),
       matsLabel: document.getElementById("matsLabel"),
+      clearViewSectionTitle: document.getElementById("clearViewSectionTitle"),
+      totalLightsLabel: document.getElementById("totalLightsLabel"),
+      glassAreaLabel: document.getElementById("glassAreaLabel"),
+      clearViewNeededLabel: document.getElementById("clearViewNeededLabel"),
+      clearViewQuartsLabel: document.getElementById("clearViewQuartsLabel"),
+      clearViewPintsLabel: document.getElementById("clearViewPintsLabel"),
+      clearViewNote: document.getElementById("clearViewNote"),
       heatSectionTitle: document.getElementById("heatSectionTitle"),
       volumeLabel: document.getElementById("volumeLabel"),
       btuLabel: document.getElementById("btuLabel"),
@@ -612,6 +698,11 @@
       weightResult: document.getElementById("weightResult"),
       floorAreaResult: document.getElementById("floorAreaResult"),
       matsResult: document.getElementById("matsResult"),
+      totalLightsResult: document.getElementById("totalLightsResult"),
+      glassAreaResult: document.getElementById("glassAreaResult"),
+      clearViewNeededResult: document.getElementById("clearViewNeededResult"),
+      clearViewQuartsResult: document.getElementById("clearViewQuartsResult"),
+      clearViewPintsResult: document.getElementById("clearViewPintsResult"),
       volumeResult: document.getElementById("volumeResult"),
       btuResult: document.getElementById("btuResult")
     };
@@ -655,7 +746,9 @@
         widthInput: parseFloat(el.width.value) || 0,
         heightInput: parseFloat(el.height.value) || 0,
         lengthInput: parseFloat(el.length.value) || 0,
-        deltaInput: el.deltaT.value === "" ? null : parseFloat(el.deltaT.value)
+        deltaInput: el.deltaT.value === "" ? null : parseFloat(el.deltaT.value),
+        ceilingLights: parseInt(el.ceilingLights.value, 10) || 0,
+        sidewallLights: parseInt(el.sidewallLights.value, 10) || 0
       };
     }
 
@@ -673,6 +766,15 @@
 
       const floorAreaFt2 = widthFt * lengthFt;
       const matsNeeded = Math.ceil(floorAreaFt2 / APP.floorMatCoverageSqFt);
+
+      const totalLights = input.ceilingLights + input.sidewallLights;
+      const glassAreaFt2 = totalLights * APP.glassSqFtPerLight;
+      const clearViewGalMin = glassAreaFt2 / APP.clearViewCoverageHighSqFtPerGallon;
+      const clearViewGalMax = glassAreaFt2 / APP.clearViewCoverageLowSqFtPerGallon;
+      const clearViewQtMin = clearViewGalMin * 4;
+      const clearViewQtMax = clearViewGalMax * 4;
+      const clearViewPtMin = clearViewGalMin * 8;
+      const clearViewPtMax = clearViewGalMax * 8;
 
       const volumeFt3 = widthFt * heightFt * lengthFt;
 
@@ -693,6 +795,14 @@
         weightLb,
         floorAreaFt2,
         matsNeeded,
+        totalLights,
+        glassAreaFt2,
+        clearViewGalMin,
+        clearViewGalMax,
+        clearViewQtMin,
+        clearViewQtMax,
+        clearViewPtMin,
+        clearViewPtMax,
         volumeFt3,
         btu
       };
@@ -706,17 +816,24 @@
         el.productNeededResult.textContent = `${formatNumber(r.gallonsNeeded, 2)} gal`;
         el.weightResult.textContent = `${formatNumber(r.weightLb, 1)} lb`;
         el.floorAreaResult.textContent = `${formatNumber(r.floorAreaFt2, 0)} ft²`;
+        el.glassAreaResult.textContent = `${formatNumber(r.glassAreaFt2, 0)} ft²`;
+        el.clearViewNeededResult.textContent = `${formatNumber(r.clearViewGalMin, 2)} - ${formatNumber(r.clearViewGalMax, 2)} gal`;
         el.volumeResult.textContent = `${formatNumber(r.volumeFt3, 0)} ft³`;
       } else {
         el.wallAreaResult.textContent = `${formatNumber(r.wallAreaFt2 * APP.sqFtToSqM, 2)} m²`;
         el.productNeededResult.textContent = `${formatNumber(r.gallonsNeeded * APP.gallonToLiter, 2)} L`;
         el.weightResult.textContent = `${formatNumber(r.weightLb * APP.lbToKg, 2)} kg`;
         el.floorAreaResult.textContent = `${formatNumber(r.floorAreaFt2 * APP.sqFtToSqM, 2)} m²`;
+        el.glassAreaResult.textContent = `${formatNumber(r.glassAreaFt2 * APP.sqFtToSqM, 2)} m²`;
+        el.clearViewNeededResult.textContent = `${formatNumber(r.clearViewGalMin * APP.gallonToLiter, 2)} - ${formatNumber(r.clearViewGalMax * APP.gallonToLiter, 2)} L`;
         el.volumeResult.textContent = `${formatNumber(r.volumeFt3 * APP.cuFtToCuM, 2)} m³`;
       }
 
       el.casesResult.textContent = `${formatNumber(r.casesNeeded, 0)}`;
       el.matsResult.textContent = `${formatNumber(r.matsNeeded, 0)}`;
+      el.totalLightsResult.textContent = `${formatNumber(r.totalLights, 0)}`;
+      el.clearViewQuartsResult.textContent = `${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`;
+      el.clearViewPintsResult.textContent = `${formatNumber(r.clearViewPtMin, 2)} - ${formatNumber(r.clearViewPtMax, 2)} pt`;
       el.btuResult.textContent = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "-";
     }
 
@@ -768,6 +885,9 @@
       el.heightLabel.textContent = `${t("heightLabel")} ${isImperial ? "(ft)" : "(m)"}`;
       el.lengthLabel.textContent = `${t("lengthLabel")} ${isImperial ? "(ft)" : "(m)"}`;
       el.deltaLabel.textContent = isImperial ? t("deltaLabelImperial") : t("deltaLabelMetric");
+      el.lightSectionTitle.textContent = t("lightSectionTitle");
+      el.ceilingLightsLabel.textContent = t("ceilingLightsLabel");
+      el.sidewallLightsLabel.textContent = t("sidewallLightsLabel");
       el.presetSectionTitle.textContent = t("presetSectionTitle");
       el.presetNameLabel.textContent = t("presetNameLabel");
       el.presetLoadLabel.textContent = t("presetLoadLabel");
@@ -787,6 +907,13 @@
       el.floorSectionTitle.textContent = t("floorSectionTitle");
       el.floorAreaLabel.textContent = t("floorAreaLabel");
       el.matsLabel.textContent = t("matsLabel");
+      el.clearViewSectionTitle.textContent = t("clearViewSectionTitle");
+      el.totalLightsLabel.textContent = t("totalLightsLabel");
+      el.glassAreaLabel.textContent = t("glassAreaLabel");
+      el.clearViewNeededLabel.textContent = t("clearViewNeededLabel");
+      el.clearViewQuartsLabel.textContent = t("clearViewQuartsLabel");
+      el.clearViewPintsLabel.textContent = t("clearViewPintsLabel");
+      el.clearViewNote.textContent = t("clearViewNote");
       el.heatSectionTitle.textContent = t("heatSectionTitle");
       el.volumeLabel.textContent = t("volumeLabel");
       el.btuLabel.textContent = t("btuLabel");
@@ -813,7 +940,9 @@
         width: input.widthInput,
         height: input.heightInput,
         length: input.lengthInput,
-        deltaT: input.deltaInput ?? ""
+        deltaT: input.deltaInput ?? "",
+        ceilingLights: input.ceilingLights,
+        sidewallLights: input.sidewallLights
       };
 
       presets.push(preset);
@@ -839,6 +968,8 @@
       el.height.value = preset.height;
       el.length.value = preset.length;
       el.deltaT.value = preset.deltaT;
+      el.ceilingLights.value = preset.ceilingLights ?? 0;
+      el.sidewallLights.value = preset.sidewallLights ?? 0;
 
       updateLabels();
       renderResults();
@@ -868,6 +999,8 @@
       el.height.value = "9";
       el.length.value = "27";
       el.deltaT.value = "";
+      el.ceilingLights.value = "8";
+      el.sidewallLights.value = "6";
       el.presetName.value = "";
 
       updateLabels();
@@ -894,9 +1027,17 @@
         ? `${formatNumber(r.floorAreaFt2, 0)} ft²`
         : `${formatNumber(r.floorAreaFt2 * APP.sqFtToSqM, 2)} m²`;
 
+      const glassArea = units() === "imperial"
+        ? `${formatNumber(r.glassAreaFt2, 0)} ft²`
+        : `${formatNumber(r.glassAreaFt2 * APP.sqFtToSqM, 2)} m²`;
+
       const volume = units() === "imperial"
         ? `${formatNumber(r.volumeFt3, 0)} ft³`
         : `${formatNumber(r.volumeFt3 * APP.cuFtToCuM, 2)} m³`;
+
+      const clearViewNeeded = units() === "imperial"
+        ? `${formatNumber(r.clearViewGalMin, 2)} - ${formatNumber(r.clearViewGalMax, 2)} gal`
+        : `${formatNumber(r.clearViewGalMin * APP.gallonToLiter, 2)} - ${formatNumber(r.clearViewGalMax * APP.gallonToLiter, 2)} L`;
 
       const rows = [
         ["Language", lang()],
@@ -907,12 +1048,19 @@
         ["Height Input", r.input.heightInput],
         ["Length Input", r.input.lengthInput],
         ["Temperature Difference Input", r.input.deltaInput ?? ""],
+        ["Ceiling Lights", r.input.ceilingLights],
+        ["Sidewall Lights", r.input.sidewallLights],
+        ["Total Lights", r.totalLights],
         ["Wall Area", wallArea],
         ["Product Needed", productNeeded],
         ["Cases Needed", r.casesNeeded],
         ["Estimated Product Weight", weight],
         ["Floor Area", floorArea],
         ["Mats Needed", r.matsNeeded],
+        ["Glass Area", glassArea],
+        ["Clear View Needed", clearViewNeeded],
+        ["Clear View Quarts", `${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`],
+        ["Clear View Pints", `${formatNumber(r.clearViewPtMin, 2)} - ${formatNumber(r.clearViewPtMax, 2)} pt`],
         ["Booth Volume", volume],
         ["Estimated Heat Load", r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : ""]
       ];
@@ -953,6 +1101,10 @@
         ? `${formatNumber(r.floorAreaFt2, 0)} ft²`
         : `${formatNumber(r.floorAreaFt2 * APP.sqFtToSqM, 2)} m²`;
 
+      const glassArea = units() === "imperial"
+        ? `${formatNumber(r.glassAreaFt2, 0)} ft²`
+        : `${formatNumber(r.glassAreaFt2 * APP.sqFtToSqM, 2)} m²`;
+
       const volume = units() === "imperial"
         ? `${formatNumber(r.volumeFt3, 0)} ft³`
         : `${formatNumber(r.volumeFt3 * APP.cuFtToCuM, 2)} m³`;
@@ -970,13 +1122,26 @@
         `Units: ${units()}`,
         `Temperature Difference: ${r.input.deltaInput !== null ? r.input.deltaInput : ""}`,
         ``,
-        `Results:`,
+        `White Out / Booth Coating:`,
         `Wall Area: ${wallArea}`,
         `Product Needed: ${productNeeded}`,
         `Cases Needed: ${r.casesNeeded}`,
         `Estimated Product Weight: ${weight}`,
+        ``,
+        `Booth Mat:`,
         `Floor Area: ${floorArea}`,
         `Mats Needed: ${r.matsNeeded}`,
+        ``,
+        `Clear View:`,
+        `Ceiling Lights: ${r.input.ceilingLights}`,
+        `Sidewall Lights: ${r.input.sidewallLights}`,
+        `Total Lights: ${r.totalLights}`,
+        `Glass Area: ${glassArea}`,
+        `Clear View Needed: ${formatNumber(r.clearViewGalMin, 2)} - ${formatNumber(r.clearViewGalMax, 2)} gal`,
+        `Equivalent Quarts: ${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`,
+        `Equivalent Pints: ${formatNumber(r.clearViewPtMin, 2)} - ${formatNumber(r.clearViewPtMax, 2)} pt`,
+        ``,
+        `Heat:`,
         `Booth Volume: ${volume}`,
         `Estimated Heat Load: ${heatLoad}`
       ].join("\n");
@@ -999,7 +1164,16 @@
         renderResults();
       });
 
-      [el.companyName, el.purchaseOrder, el.width, el.height, el.length, el.deltaT].forEach(item => {
+      [
+        el.companyName,
+        el.purchaseOrder,
+        el.width,
+        el.height,
+        el.length,
+        el.deltaT,
+        el.ceilingLights,
+        el.sidewallLights
+      ].forEach(item => {
         item.addEventListener("input", renderResults);
       });
 
