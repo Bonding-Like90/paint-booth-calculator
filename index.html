@@ -90,7 +90,6 @@ border-radius: var(--radius);
 box-shadow: var(--shadow);
 padding: 20px;
 }
-}
 .card {
 background: var(--card);
 border: 1px solid var(--border);
@@ -125,7 +124,6 @@ padding: 13px 12px;
 border-radius: 10px;
 border: 1px solid var(--border);
 font-size: 1rem;
-}
 }
 label {
 display: block;
@@ -244,7 +242,6 @@ background: white;
 <p id="appSubtitle">Calculate wall coating, floor mat, and Clear View requirements</p>
 </div>
 </header>
-
 <div class="container">
 <div class="topbar">
 <select id="languageSelect" aria-label="Language">
@@ -257,11 +254,9 @@ background: white;
 <option value="metric">Metric (m, L)</option>
 </select>
 </div>
-
 <div class="grid">
 <section class="card">
 <h2 id="inputsTitle">Booth Inputs</h2>
-
 <div class="row two">
 <div>
 <label id="companyNameLabel" for="companyName">Company Name</label>
@@ -271,8 +266,6 @@ background: white;
 <label id="purchaseOrderLabel" for="purchaseOrder">Purchase Order</label>
 <input type="text" id="purchaseOrder" placeholder="Example: PO-12345" autocomplete="off" />
 </div>
-</div>
-
 <div class="row two">
 <div>
 <label id="widthLabel" for="width">Internal Width (ft)</label>
@@ -282,8 +275,6 @@ background: white;
 <label id="heightLabel" for="height">Internal Height (ft)</label>
 <input type="number" id="height" step="0.01" min="0" value="9" />
 </div>
-</div>
-
 <div class="row two">
 <div>
 <label id="lengthLabel" for="length">Internal Length (ft)</label>
@@ -293,10 +284,7 @@ background: white;
 <label id="deltaLabel" for="deltaT">Temperature Difference (°F)</label>
 <input type="number" id="deltaT" step="0.01" min="0" placeholder="Optional" />
 </div>
-</div>
-
 <div class="section-title" id="lightSectionTitle">Light Fixtures for Clear View</div>
-
 <div class="row two">
 <div>
 <label id="ceilingLightsLabel" for="ceilingLights">Ceiling Light Fixtures</label>
@@ -306,10 +294,7 @@ background: white;
 <label id="sidewallLightsLabel" for="sidewallLights">Sidewall Light Fixtures</label>
 <input type="number" id="sidewallLights" step="1" min="0" value="6" />
 </div>
-</div>
-
 <div class="section-title" id="presetSectionTitle">Presets</div>
-
 <div class="row two">
 <div>
 <label id="presetNameLabel" for="presetName">Preset Name</label>
@@ -321,24 +306,19 @@ background: white;
 <option value="">Select a saved preset</option>
 </select>
 </div>
-</div>
-
 <div class="actions three">
 <button id="savePresetBtn">Save Preset</button>
 <button id="deletePresetBtn" class="danger">Delete Preset</button>
 <button id="resetBtn" class="secondary">Reset</button>
 </div>
-
 <div class="section-title" id="exportSectionTitle">Export / Order</div>
 <div class="actions two">
 <button id="exportCsvBtn">Export CSV</button>
 <button id="emailOrderBtn">Email Order</button>
 </div>
-
 <p class="note" id="noteText">
 This calculator uses internal booth dimensions only. Openings and pits are not subtracted.
 </p>
-
 </section>
 
 <section class="card">
@@ -346,42 +326,40 @@ This calculator uses internal booth dimensions only. Openings and pits are not s
 
 <div class="section-title" id="wallSectionTitle">Wall Coating</div>
 <div class="results-grid">
-
 <div class="result-box">
 <div class="result-label" id="wallAreaLabel">Wall Area</div>
 <div class="result-value" id="wallAreaResult">-</div>
 </div>
-
 <div class="result-box">
 <div class="result-label" id="productNeededLabel">Product Needed (Gallons)</div>
 <div class="result-value" id="productNeededResult">-</div>
 </div>
 
+<!-- Wall PN split -->
 <div class="result-box">
-<div class="result-label">PN (Wall)</div>
-<input class="pn-input" id="wallPnInput" type="text" inputmode="numeric" />
+<div class="result-label">PN (Wall) - 1-Gallon Containers</div>
+<input class="pn-input" id="wallPnInput1Gal" type="text" inputmode="numeric" />
+</div>
+<div class="result-box">
+<div class="result-label">PN (Wall) - 5-Gallon Containers</div>
+<input class="pn-input" id="wallPnInput5Gal" type="text" inputmode="numeric" />
 </div>
 
 <div class="result-box">
 <div class="result-label">1-Gallon Containers</div>
 <div class="result-value" id="wallOneGalContainersResult">-</div>
 </div>
-
 <div class="result-box">
 <div class="result-label">5-Gallon Containers</div>
 <div class="result-value" id="wallFiveGalContainersResult">-</div>
 </div>
-
 <div class="result-box">
 <div class="result-label">Wall Ordered Gallons</div>
 <div class="result-value" id="wallOrderedGallonsResult">-</div>
 </div>
-
 <div class="result-box">
 <div class="result-label" id="weightLabel">Estimated Product Weight</div>
 <div class="result-value" id="weightResult">-</div>
-</div>
-
 </div>
 
 <div class="section-title" id="floorSectionTitle">Floor Mat</div>
@@ -394,7 +372,6 @@ This calculator uses internal booth dimensions only. Openings and pits are not s
 <div class="result-label" id="matsLabel">Mats Needed</div>
 <div class="result-value" id="matsResult">-</div>
 </div>
-
 <div class="result-box">
 <div class="result-label">PN (Floor)</div>
 <input class="pn-input" id="floorPnInput" type="text" inputmode="numeric" />
@@ -407,30 +384,42 @@ This calculator uses internal booth dimensions only. Openings and pits are not s
 <div class="result-label" id="totalLightsLabel">Total Lights</div>
 <div class="result-value" id="totalLightsResult">-</div>
 </div>
-
 <div class="result-box">
 <div class="result-label" id="glassAreaLabel">Glass Area</div>
 <div class="result-value" id="glassAreaResult">-</div>
 </div>
-
 <div class="result-box">
 <div class="result-label" id="clearViewNeededLabel">Clear View Needed</div>
 <div class="result-value" id="clearViewNeededResult">-</div>
 </div>
 
+<!-- Clear View PN split -->
 <div class="result-box">
-<div class="result-label">PN (Clear View)</div>
-<input class="pn-input" id="clearViewPnInput" type="text" inputmode="numeric" />
+<div class="result-label">PN (Clear View) - 1-Gallon Containers</div>
+<input class="pn-input" id="clearViewPnInput1Gal" type="text" inputmode="numeric" />
+</div>
+<div class="result-box">
+<div class="result-label">PN (Clear View) - 5-Gallon Containers</div>
+<input class="pn-input" id="clearViewPnInput5Gal" type="text" inputmode="numeric" />
 </div>
 
 <div class="result-box">
 <div class="result-label" id="clearViewQuartsLabel">Equivalent Quarts</div>
 <div class="result-value" id="clearViewQuartsResult">-</div>
 </div>
-
 <div class="result-box">
 <div class="result-label" id="clearViewPintsLabel">Equivalent Pints</div>
 <div class="result-value" id="clearViewPintsResult">-</div>
+</div>
+
+<!-- New: container counts for Clear View -->
+<div class="result-box">
+<div class="result-label">1-Gallon Containers</div>
+<div class="result-value" id="clearViewOneGalContainersResult">-</div>
+</div>
+<div class="result-box">
+<div class="result-label">5-Gallon Containers</div>
+<div class="result-value" id="clearViewFiveGalContainersResult">-</div>
 </div>
 
 <div class="result-box">
@@ -440,8 +429,6 @@ This calculator uses internal booth dimensions only. Openings and pits are not s
 
 <div class="footer-note" id="clearViewNote">
 Based on 2 ft x 4 ft glass per light, at 400–500 sq ft per gallon. Minimum order is 1 gallon when Clear View is needed.
-</div>
-
 </div>
 
 <div class="section-title" id="heatSectionTitle">Heat Estimate</div>
@@ -454,15 +441,11 @@ Based on 2 ft x 4 ft glass per light, at 400–500 sq ft per gallon. Minimum ord
 <div class="result-label" id="btuLabel">Estimated Heat Load</div>
 <div class="result-value" id="btuResult">-</div>
 </div>
-
 <div class="footer-note" id="footerNote">
 Coverage used: 150 sq ft per gallon for wall coating, and 400 sq ft per floor mat.
 </div>
-
-</div>
 </section>
 </div>
-
 <div id="toast" class="toast"></div>
 
 <script>
@@ -470,29 +453,29 @@ const APP = {
 wallCoverageSqFtPerGallon: 150,
 wallWeightLbPerGallon: 8.6,
 floorMatCoverageSqFt: 400,
-
 glassSqFtPerLight: 8,
 clearViewCoverageLowSqFtPerGallon: 400,
 clearViewCoverageHighSqFtPerGallon: 500,
-
 sqFtToSqM: 0.092903,
 gallonToLiter: 3.78541,
 lbToKg: 0.453592,
 cuFtToCuM: 0.0283168,
-
 presetKey: "paintBoothCalculatorPresets",
 emailRecipients: "eric@bondingsolutions.net,jamillerplio@live.com",
 emailSubject: "Like 90 order",
 
-// PN Defaults (editable inputs)
-pnWallLow: "10032",
-pnWallHigh: "10033",
+// PN defaults (split by 1-gal vs 5-gal)
+pnWallLow: "10032",   // 1-gallon
+pnWallHigh: "10033",  // 5-gallon
 pnFloor: "10050",
-pnClearView: "10034",
+pnClearViewLow: "10032",   // 1-gallon (per your mapping)
+pnClearViewHigh: "10033",  // 5-gallon
 
 // Container sizes
 wallContainer1Gal: 1,
-wallContainer5Gal: 5
+wallContainer5Gal: 5,
+clearContainer1Gal: 1,
+clearContainer5Gal: 5
 };
 
 const TEXT = {
@@ -744,9 +727,14 @@ wallOneGalContainersResult: document.getElementById("wallOneGalContainersResult"
 wallFiveGalContainersResult: document.getElementById("wallFiveGalContainersResult"),
 wallOrderedGallonsResult: document.getElementById("wallOrderedGallonsResult"),
 
-wallPnInput: document.getElementById("wallPnInput"),
+wallPnInput1Gal: document.getElementById("wallPnInput1Gal"),
+wallPnInput5Gal: document.getElementById("wallPnInput5Gal"),
 floorPnInput: document.getElementById("floorPnInput"),
-clearViewPnInput: document.getElementById("clearViewPnInput")
+clearViewPnInput1Gal: document.getElementById("clearViewPnInput1Gal"),
+clearViewPnInput5Gal: document.getElementById("clearViewPnInput5Gal"),
+
+clearViewOneGalContainersResult: document.getElementById("clearViewOneGalContainersResult"),
+clearViewFiveGalContainersResult: document.getElementById("clearViewFiveGalContainersResult")
 };
 
 function lang() { return el.languageSelect.value; }
@@ -766,6 +754,7 @@ minimumFractionDigits: decimals,
 maximumFractionDigits: decimals
 });
 }
+
 function convertInputToFeet(value) {
 return units() === "imperial" ? value : value * 3.28084;
 }
@@ -783,24 +772,14 @@ sidewallLights: parseInt(el.sidewallLights.value, 10) || 0
 };
 }
 
-function chooseWallContainers(gallonsNeeded) {
+// Greedy for 1-gal + 5-gal container split, using ceil on gallons needed.
+function chooseSplitContainers(gallonsNeeded, oneGalSize, fiveGalSize) {
 const safeNeeded = Math.max(0, gallonsNeeded || 0);
-
-const fiveGal = APP.wallContainer5Gal;
-const oneGal = APP.wallContainer1Gal;
-
-// Greedy: use as many 5-gal containers as possible, then fill remainder with 1-gal.
-// Round-up behavior is done at the gallon-to-galions stage (ceil needed gallons).
 const neededRoundedUp = Math.max(0, Math.ceil(safeNeeded));
-
-// 5-gal containers:
-const fiveContainers = Math.floor(neededRoundedUp / fiveGal);
-const remainingAfterFive = neededRoundedUp - fiveContainers * fiveGal;
-
-// remainder filled with 1-gal:
-const oneContainers = remainingAfterFive / oneGal;
-
-const orderedGallons = fiveContainers * fiveGal + oneContainers * oneGal;
+const fiveContainers = Math.floor(neededRoundedUp / fiveGalSize);
+const remainingAfterFive = neededRoundedUp - fiveContainers * fiveGalSize;
+const oneContainers = remainingAfterFive / oneGalSize; // should be integer with 1-gal size
+const orderedGallons = fiveContainers * fiveGalSize + oneContainers * oneGalSize;
 
 return {
 neededRoundedUp,
@@ -822,10 +801,11 @@ const wallAreaFt2 = 2 * (widthFt * heightFt) + 2 * (lengthFt * heightFt);
 const gallonsNeeded = wallAreaFt2 / APP.wallCoverageSqFtPerGallon;
 
 // Wall container ordering (Option B)
-const wallContainerPlan = chooseWallContainers(gallonsNeeded);
+const wallContainerPlan = chooseSplitContainers(gallonsNeeded, APP.wallContainer1Gal, APP.wallContainer5Gal);
 
 const weightLb = gallonsNeeded * APP.wallWeightLbPerGallon;
 
+// floor
 const floorAreaFt2 = widthFt * lengthFt;
 const matsNeeded = Math.ceil(floorAreaFt2 / APP.floorMatCoverageSqFt);
 
@@ -836,8 +816,15 @@ const glassAreaFt2 = totalLights * APP.glassSqFtPerLight;
 const clearViewGalMin = glassAreaFt2 / APP.clearViewCoverageHighSqFtPerGallon;
 const clearViewGalMax = glassAreaFt2 / APP.clearViewCoverageLowSqFtPerGallon;
 
-// Clear View ordered quantity (keep your prior gallon rounding/min rule)
+// Clear View ordered gallons (keep your existing rounding/min rule)
 const clearViewOrderGallons = totalLights > 0 ? Math.max(1, Math.ceil(clearViewGalMax)) : 0;
+
+// Clear View container split (new)
+const clearViewContainerPlan = chooseSplitContainers(
+clearViewOrderGallons,
+APP.clearContainer1Gal,
+APP.clearContainer5Gal
+);
 
 const clearViewQtMin = clearViewGalMin * 4;
 const clearViewQtMax = clearViewGalMax * 4;
@@ -860,10 +847,8 @@ wallAreaFt2,
 gallonsNeeded,
 wallContainerPlan,
 weightLb,
-
 floorAreaFt2,
 matsNeeded,
-
 totalLights,
 glassAreaFt2,
 clearViewGalMin,
@@ -873,16 +858,21 @@ clearViewQtMax,
 clearViewPtMin,
 clearViewPtMax,
 clearViewOrderGallons,
-
+clearViewContainerPlan,
 volumeFt3,
 btu
 };
 }
 
-function renderWallPnAutoFill(orderedGallons) {
-const neededOrOrdered = orderedGallons || 0;
-const pn = neededOrOrdered <= 1 ? APP.pnWallLow : APP.pnWallHigh;
-el.wallPnInput.value = pn;
+// Auto-overwrite both PN fields every run (rule #1 behavior)
+function renderWallPnAutoFill() {
+el.wallPnInput1Gal.value = APP.pnWallLow;   // 1-gal PN
+el.wallPnInput5Gal.value = APP.pnWallHigh;  // 5-gal PN
+}
+
+function renderClearViewPnAutoFill() {
+el.clearViewPnInput1Gal.value = APP.pnClearViewLow;   // 1-gal PN
+el.clearViewPnInput5Gal.value = APP.pnClearViewHigh;  // 5-gal PN
 }
 
 function renderResults() {
@@ -908,33 +898,41 @@ el.clearViewNeededResult.textContent =
 el.volumeResult.textContent = `${formatNumber(r.volumeFt3 * APP.cuFtToCuM, 2)} m³`;
 }
 
+// Wall containers
 el.wallOneGalContainersResult.textContent =
 r.wallContainerPlan.oneContainers > 0 ? `${formatNumber(r.wallContainerPlan.oneContainers, 0)}` : "0";
-
 el.wallFiveGalContainersResult.textContent =
 r.wallContainerPlan.fiveContainers > 0 ? `${formatNumber(r.wallContainerPlan.fiveContainers, 0)}` : "0";
-
 el.wallOrderedGallonsResult.textContent =
 `${formatNumber(r.wallContainerPlan.orderedGallons, 0)} gal`;
 
-renderWallPnAutoFill(r.wallContainerPlan.orderedGallons);
+renderWallPnAutoFill();
 
+// Floor PN
 el.matsResult.textContent = `${formatNumber(r.matsNeeded, 0)}`;
+el.floorPnInput.value = APP.pnFloor;
+
+// Wall weight already done above
 el.totalLightsResult.textContent = `${formatNumber(r.totalLights, 0)}`;
 
+// Clear View equivalents
 el.clearViewQuartsResult.textContent =
 `${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`;
-
 el.clearViewPintsResult.textContent =
 `${formatNumber(r.clearViewPtMin, 2)} - ${formatNumber(r.clearViewPtMax, 2)} pt`;
+
+// Clear View containers
+el.clearViewOneGalContainersResult.textContent =
+r.clearViewContainerPlan.oneContainers > 0 ? `${formatNumber(r.clearViewContainerPlan.oneContainers, 0)}` : "0";
+el.clearViewFiveGalContainersResult.textContent =
+r.clearViewContainerPlan.fiveContainers > 0 ? `${formatNumber(r.clearViewContainerPlan.fiveContainers, 0)}` : "0";
 
 el.clearViewOrderResult.textContent =
 r.clearViewOrderGallons > 0 ? `${formatNumber(r.clearViewOrderGallons, 0)} gal` : `0 gal`;
 
-el.btuResult.textContent = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "-";
+renderClearViewPnAutoFill();
 
-el.floorPnInput.value = APP.pnFloor;
-el.clearViewPnInput.value = APP.pnClearView;
+el.btuResult.textContent = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "-";
 }
 
 function loadPresets() {
@@ -948,65 +946,51 @@ function populatePresetDropdown() {
 const presets = loadPresets();
 const currentValue = el.presetSelect.value;
 el.presetSelect.innerHTML = "";
-
 const defaultOption = document.createElement("option");
 defaultOption.value = "";
 defaultOption.textContent = t("presetDefaultOption");
 el.presetSelect.appendChild(defaultOption);
-
 presets.forEach((preset, index) => {
 const option = document.createElement("option");
 option.value = index;
 option.textContent = preset.name;
 el.presetSelect.appendChild(option);
 });
-
 if (currentValue !== "") el.presetSelect.value = currentValue;
 }
 
 function updateLabels() {
 const isImperial = units() === "imperial";
-
 el.appTitle.textContent = t("appTitle");
 el.appSubtitle.textContent = t("appSubtitle");
 el.inputsTitle.textContent = t("inputsTitle");
 el.companyNameLabel.textContent = t("companyNameLabel");
 el.purchaseOrderLabel.textContent = t("purchaseOrderLabel");
-
 el.widthLabel.textContent = `${t("widthLabel")} ${isImperial ? "(ft)" : "(m)"}`;
 el.heightLabel.textContent = `${t("heightLabel")} ${isImperial ? "(ft)" : "(m)"}`;
 el.lengthLabel.textContent = `${t("lengthLabel")} ${isImperial ? "(ft)" : "(m)"}`;
-
 el.deltaLabel.textContent = isImperial ? t("deltaLabelImperial") : t("deltaLabelMetric");
-
 el.lightSectionTitle.textContent = t("lightSectionTitle");
 el.ceilingLightsLabel.textContent = t("ceilingLightsLabel");
 el.sidewallLightsLabel.textContent = t("sidewallLightsLabel");
-
 el.presetSectionTitle.textContent = t("presetSectionTitle");
 el.presetNameLabel.textContent = t("presetNameLabel");
 el.presetLoadLabel.textContent = t("presetLoadLabel");
-
 el.savePresetBtn.textContent = t("savePresetBtn");
 el.deletePresetBtn.textContent = t("deletePresetBtn");
 el.resetBtn.textContent = t("resetBtn");
-
 el.exportSectionTitle.textContent = t("exportSectionTitle");
 el.exportCsvBtn.textContent = t("exportCsvBtn");
 el.emailOrderBtn.textContent = t("emailOrderBtn");
-
 el.noteText.textContent = t("noteText");
-
 el.resultsTitle.textContent = t("resultsTitle");
 el.wallSectionTitle.textContent = t("wallSectionTitle");
 el.wallAreaLabel.textContent = t("wallAreaLabel");
 el.productNeededLabel.textContent = t("productNeededLabel");
 el.weightLabel.textContent = t("weightLabel");
-
 el.floorSectionTitle.textContent = t("floorSectionTitle");
 el.floorAreaLabel.textContent = t("floorAreaLabel");
 el.matsLabel.textContent = t("matsLabel");
-
 el.clearViewSectionTitle.textContent = t("clearViewSectionTitle");
 el.totalLightsLabel.textContent = t("totalLightsLabel");
 el.glassAreaLabel.textContent = t("glassAreaLabel");
@@ -1015,24 +999,20 @@ el.clearViewQuartsLabel.textContent = t("clearViewQuartsLabel");
 el.clearViewPintsLabel.textContent = t("clearViewPintsLabel");
 el.clearViewOrderLabel.textContent = t("clearViewOrderLabel");
 el.clearViewNote.textContent = t("clearViewNote");
-
 el.heatSectionTitle.textContent = t("heatSectionTitle");
 el.volumeLabel.textContent = t("volumeLabel");
 el.btuLabel.textContent = t("btuLabel");
 el.footerNote.textContent = t("footerNote");
-
 el.companyName.placeholder = t("companyPlaceholder");
 el.purchaseOrder.placeholder = t("purchaseOrderPlaceholder");
 el.presetName.placeholder = t("presetPlaceholder");
 el.deltaT.placeholder = t("optionalPlaceholder");
-
 populatePresetDropdown();
 }
 
 function savePreset() {
 const presets = loadPresets();
 const input = getInputs();
-
 const preset = {
 name: el.presetName.value.trim() || `Preset ${presets.length + 1}`,
 language: lang(),
@@ -1044,10 +1024,8 @@ deltaT: input.deltaInput ?? "",
 ceilingLights: input.ceilingLights,
 sidewallLights: input.sidewallLights
 };
-
 presets.push(preset);
 savePresetsToStorage(presets);
-
 el.presetName.value = "";
 showToast(t("presetSaved"));
 populatePresetDropdown();
@@ -1056,25 +1034,19 @@ populatePresetDropdown();
 function loadSelectedPreset() {
 const selectedIndex = el.presetSelect.value;
 if (selectedIndex === "") return;
-
 const presets = loadPresets();
 const preset = presets[Number(selectedIndex)];
 if (!preset) return;
-
 el.languageSelect.value = preset.language || "en";
 el.unitSelect.value = preset.unitSystem || "imperial";
-
 el.companyName.value = "";
 el.purchaseOrder.value = "";
-
 el.width.value = preset.width;
 el.height.value = preset.height;
 el.length.value = preset.length;
 el.deltaT.value = preset.deltaT;
-
 el.ceilingLights.value = preset.ceilingLights ?? 0;
 el.sidewallLights.value = preset.sidewallLights ?? 0;
-
 updateLabels();
 renderResults();
 showToast(t("presetLoaded"));
@@ -1089,7 +1061,6 @@ return;
 const presets = loadPresets();
 presets.splice(Number(selectedIndex), 1);
 savePresetsToStorage(presets);
-
 populatePresetDropdown();
 showToast(t("presetDeleted"));
 }
@@ -1097,33 +1068,25 @@ showToast(t("presetDeleted"));
 function resetForm() {
 el.languageSelect.value = "en";
 el.unitSelect.value = "imperial";
-
 el.companyName.value = "";
 el.purchaseOrder.value = "";
-
 el.width.value = "14";
 el.height.value = "9";
 el.length.value = "27";
 el.deltaT.value = "";
-
 el.ceilingLights.value = "8";
 el.sidewallLights.value = "6";
-
 el.presetName.value = "";
 updateLabels();
 renderResults();
 showToast(t("resetDone"));
 }
 
-function getWallPnValue() {
-return (el.wallPnInput.value || "").trim();
-}
-function getFloorPnValue() {
-return (el.floorPnInput.value || "").trim();
-}
-function getClearViewPnValue() {
-return (el.clearViewPnInput.value || "").trim();
-}
+function getWallPn1() { return (el.wallPnInput1Gal.value || "").trim(); }
+function getWallPn5() { return (el.wallPnInput5Gal.value || "").trim(); }
+function getFloorPnValue() { return (el.floorPnInput.value || "").trim(); }
+function getClearPn1() { return (el.clearViewPnInput1Gal.value || "").trim(); }
+function getClearPn5() { return (el.clearViewPnInput5Gal.value || "").trim(); }
 
 function exportCsv() {
 const r = calculate();
@@ -1171,7 +1134,8 @@ const rows = [
 
 ["Wall Area", wallArea],
 ["Wall Product Needed", gallonsNeededDisplay],
-["Wall PN", getWallPnValue()],
+["Wall PN (1-Gal)", getWallPn1()],
+["Wall PN (5-Gal)", getWallPn5()],
 ["Wall 1-Gal Containers", r.wallContainerPlan.oneContainers],
 ["Wall 5-Gal Containers", r.wallContainerPlan.fiveContainers],
 ["Wall Ordered Gallons", `${r.wallContainerPlan.orderedGallons} gal`],
@@ -1183,10 +1147,14 @@ const rows = [
 
 ["Glass Area", glassArea],
 ["Clear View Needed", clearViewNeeded],
-["Clear View PN", getClearViewPnValue()],
+["Clear View PN (1-Gal)", getClearPn1()],
+["Clear View PN (5-Gal)", getClearPn5()],
+["Clear View 1-Gal Containers", r.clearViewContainerPlan.oneContainers],
+["Clear View 5-Gal Containers", r.clearViewContainerPlan.fiveContainers],
+["Clear View Order Quantity", `${r.clearViewOrderGallons} gal`],
+
 ["Clear View Quarts", `${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`],
 ["Clear View Pints", `${formatNumber(r.clearViewPtMin, 2)} - ${formatNumber(r.clearViewPtMax, 2)} pt`],
-["Clear View Order Quantity", `${r.clearViewOrderGallons} gal`],
 
 ["Booth Volume", volume],
 ["Estimated Heat Load", r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : ""]
@@ -1198,7 +1166,6 @@ row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(",")
 
 const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
 const url = URL.createObjectURL(blob);
-
 const link = document.createElement("a");
 link.href = url;
 link.download = "paint-booth-calculator-results.csv";
@@ -1206,7 +1173,6 @@ document.body.appendChild(link);
 link.click();
 document.body.removeChild(link);
 URL.revokeObjectURL(url);
-
 showToast(t("csvExported"));
 }
 
@@ -1221,7 +1187,8 @@ const productNeeded = units() === "imperial"
 ? `${formatNumber(r.gallonsNeeded, 2)} gal`
 : `${formatNumber(r.gallonsNeeded * APP.gallonToLiter, 2)} L`;
 
-const wallPn = getWallPnValue();
+const wallPn1 = getWallPn1();
+const wallPn5 = getWallPn5();
 
 const weight = units() === "imperial"
 ? `${formatNumber(r.weightLb, 1)} lb`
@@ -1242,7 +1209,9 @@ const volume = units() === "imperial"
 const heatLoad = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "Not provided";
 
 const floorPn = getFloorPnValue();
-const clearPn = getClearViewPnValue();
+
+const clearPn1 = getClearPn1();
+const clearPn5 = getClearPn5();
 
 const clearViewNeededStr = units() === "imperial"
 ? `${formatNumber(r.clearViewGalMin, 2)} - ${formatNumber(r.clearViewGalMax, 2)} gal`
@@ -1261,23 +1230,25 @@ const body = [
 ``,
 `White Out / Booth Coating:`,
 `Wall Area: ${wallArea}`,
-`PN: ${wallPn}`,
-`Product Needed: ${productNeeded}`,
-`Wall 1-Gal Containers: ${r.wallContainerPlan.oneContainers}`,
-`Wall 5-Gal Containers: ${r.wallContainerPlan.fiveContainers}`,
+`Wall Product Needed: ${productNeeded}`,
+
+`Wall (1-Gal) PN: ${wallPn1} | Qty: ${r.wallContainerPlan.oneContainers} (${r.wallContainerPlan.oneContainers} gal)`,
+`Wall (5-Gal) PN: ${wallPn5} | Qty: ${r.wallContainerPlan.fiveContainers} (${r.wallContainerPlan.fiveContainers * 5} gal)`,
+
 `Wall Ordered Gallons: ${r.wallContainerPlan.orderedGallons} gal`,
 `Estimated Product Weight: ${weight}`,
 ``,
 `Booth Mat:`,
 `Floor Area: ${floorArea}`,
 `Mats Needed: ${r.matsNeeded}`,
-`PN: ${floorPn}`,
+`Floor PN: ${floorPn}`,
 ``,
 `Clear View:`,
 `Ceiling Lights: ${r.input.ceilingLights}`,
 `Sidewall Lights: ${r.input.sidewallLights}`,
 `Total Lights: ${r.totalLights}`,
-`PN: ${clearPn}`,
+`Clear View (1-Gal) PN: ${clearPn1} | Qty: ${r.clearViewContainerPlan.oneContainers} (${r.clearViewContainerPlan.oneContainers} gal)`,
+`Clear View (5-Gal) PN: ${clearPn5} | Qty: ${r.clearViewContainerPlan.fiveContainers} (${r.clearViewContainerPlan.fiveContainers * 5} gal)`,
 `Glass Area: ${glassArea}`,
 `Clear View Needed: ${clearViewNeededStr}`,
 `Equivalent Quarts: ${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`,
@@ -1322,7 +1293,6 @@ el.deletePresetBtn.addEventListener("click", deletePreset);
 el.resetBtn.addEventListener("click", resetForm);
 el.exportCsvBtn.addEventListener("click", exportCsv);
 el.emailOrderBtn.addEventListener("click", emailOrder);
-
 el.presetSelect.addEventListener("change", loadSelectedPreset);
 }
 
@@ -1330,12 +1300,17 @@ function init() {
 el.companyName.value = "";
 el.purchaseOrder.value = "";
 updateLabels();
+
+// set defaults
 el.floorPnInput.value = APP.pnFloor;
-el.clearViewPnInput.value = APP.pnClearView;
+el.wallPnInput1Gal.value = APP.pnWallLow;
+el.wallPnInput5Gal.value = APP.pnWallHigh;
+el.clearViewPnInput1Gal.value = APP.pnClearViewLow;
+el.clearViewPnInput5Gal.value = APP.pnClearViewHigh;
+
 renderResults();
 attachEvents();
 }
-
 init();
 </script>
 </body>
