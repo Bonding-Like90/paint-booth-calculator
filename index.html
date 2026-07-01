@@ -1,1317 +1,929 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Bonding Solutions | Paint Booth Calculator</title>
-<style>
-:root {
---bg: #f4f7fb;
---card: #ffffff;
---text: #1f2937;
---muted: #6b7280;
---primary: #0f5fa8;
---primary-dark: #0b4a83;
---accent: #1b75bb;
---border: #dbe3ef;
---danger: #b91c1c;
---secondary: #6b7280;
---shadow: 0 4px 14px rgba(0,0,0,0.08);
---radius: 14px;
-}
-* { box-sizing: border-box; }
-body {
-margin: 0;
-font-family: Arial, Helvetica, sans-serif;
-background: var(--bg);
-color: var(--text);
-}
-.app-header {
-background: linear-gradient(135deg, var(--primary), var(--accent));
-color: white;
-padding: 18px 16px;
-box-shadow: var(--shadow);
-}
-.header-inner {
-max-width: 1200px;
-margin: 0 auto;
-display: flex;
-align-items: center;
-gap: 18px;
-flex-wrap: wrap;
-justify-content: center;
-text-align: center;
-}
-.logo {
-max-height: 78px;
-width: auto;
-background: white;
-padding: 8px 12px;
-border-radius: 12px;
-box-shadow: 0 3px 10px rgba(0,0,0,0.12);
-}
-.header-text h1 {
-margin: 0 0 6px;
-font-size: 2rem;
-}
-.header-text p {
-margin: 0;
-font-size: 1rem;
-opacity: 0.96;
-}
-.container {
-max-width: 1200px;
-margin: 24px auto;
-padding: 0 16px 40px;
-}
-.topbar {
-display: flex;
-gap: 12px;
-justify-content: flex-end;
-flex-wrap: wrap;
-margin-bottom: 16px;
-}
-.topbar select {
-min-width: 190px;
-}
-.grid {
-display: grid;
-grid-template-columns: 1fr;
-gap: 20px;
-}
-@media (min-width: 900px) {
-.grid {
-grid-template-columns: 1fr 1fr;
-}
-.card {
-background: var(--card);
-border: 1px solid var(--border);
-border-radius: var(--radius);
-box-shadow: var(--shadow);
-padding: 20px;
-}
-.card {
-background: var(--card);
-border: 1px solid var(--border);
-border-radius: var(--radius);
-box-shadow: var(--shadow);
-padding: 20px;
-}
-h2 {
-margin-top: 0;
-margin-bottom: 16px;
-font-size: 1.35rem;
-color: var(--primary-dark);
-}
-.row {
-display: grid;
-grid-template-columns: 1fr;
-gap: 14px;
-margin-bottom: 14px;
-}
-@media (min-width: 640px) {
-.row.two {
-grid-template-columns: 1fr 1fr;
-}
-label {
-display: block;
-margin-bottom: 6px;
-font-weight: bold;
-}
-input, select, button {
-width: 100%;
-padding: 13px 12px;
-border-radius: 10px;
-border: 1px solid var(--border);
-font-size: 1rem;
-}
-label {
-display: block;
-margin-bottom: 6px;
-font-weight: bold;
-}
-input, select, button {
-width: 100%;
-padding: 13px 12px;
-border-radius: 10px;
-border: 1px solid var(--border);
-font-size: 1rem;
-}
-input:focus, select:focus {
-outline: 2px solid #93c5fd;
-border-color: var(--primary);
-}
-button {
-background: var(--primary);
-color: white;
-border: none;
-cursor: pointer;
-font-weight: bold;
-transition: background 0.2s ease;
-}
-button:hover { background: var(--primary-dark); }
-button.secondary { background: var(--secondary); }
-button.danger { background: var(--danger); }
-.actions {
-display: grid;
-grid-template-columns: 1fr;
-gap: 10px;
-margin-top: 10px;
-}
-@media (min-width: 640px) {
-.actions.three { grid-template-columns: repeat(3, 1fr); }
-.actions.two { grid-template-columns: repeat(2, 1fr); }
-}
-.section-title {
-margin-top: 20px;
-margin-bottom: 10px;
-font-size: 1.05rem;
-color: var(--primary-dark);
-font-weight: bold;
-}
-.note {
-color: var(--muted);
-font-size: 0.95rem;
-margin-top: 8px;
-line-height: 1.5;
-}
-.results-grid {
-display: grid;
-grid-template-columns: 1fr;
-gap: 12px;
-}
-.result-box {
-border: 1px solid var(--border);
-border-radius: 10px;
-padding: 14px;
-background: #fafcff;
-}
-.result-label {
-font-size: 0.95rem;
-color: var(--muted);
-margin-bottom: 6px;
-}
-.result-value {
-font-size: 1.3rem;
-font-weight: bold;
-color: var(--text);
-}
-.footer-note {
-margin-top: 20px;
-color: var(--muted);
-font-size: 0.9rem;
-line-height: 1.5;
-}
-.toast {
-position: fixed;
-bottom: 20px;
-right: 20px;
-background: #111827;
-color: white;
-padding: 12px 16px;
-border-radius: 10px;
-box-shadow: var(--shadow);
-opacity: 0;
-transform: translateY(10px);
-pointer-events: none;
-transition: all 0.25s ease;
-z-index: 9999;
-max-width: 320px;
-}
-.toast.show {
-opacity: 1;
-transform: translateY(0);
-}
-.pn-input {
-width: 100%;
-padding: 10px 12px;
-border-radius: 10px;
-border: 1px solid var(--border);
-font-size: 1rem;
-font-weight: 700;
-background: white;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bonding Solutions | Paint Booth Calculator</title>
+
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #0f5fa8;
+      --primary-dark: #0b4a83;
+      --accent: #1b75bb;
+      --border: #dbe3ef;
+      --danger: #b91c1c;
+      --secondary: #6b7280;
+      --shadow: 0 4px 14px rgba(0,0,0,0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app-header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 18px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .logo {
+      max-height: 78px;
+      width: auto;
+      background: white;
+      padding: 8px 12px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    }
+
+    .header-text h1 { margin: 0 0 6px; font-size: 2rem; }
+    .header-text p { margin: 0; font-size: 1rem; opacity: 0.96; }
+
+    .container {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .topbar select { min-width: 190px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 20px;
+      }
+    }
+
+    /* =========================================================
+       ✅ The key “fix” part: normalize input/button sizing
+       ✅ and restore consistent grid alignment for actions/rows
+       ========================================================= */
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    /* tighter spacing so buttons aren't huge */
+    input, select, button {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 0.98rem;
+      line-height: 1.2;
+    }
+
+    input:focus, select:focus {
+      outline: 2px solid #93c5fd;
+      border-color: var(--primary);
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s ease;
+      padding: 10px 12px; /* keep same as inputs */
+    }
+
+    button:hover { background: var(--primary-dark); }
+    button.secondary { background: var(--secondary); }
+    button.danger { background: var(--danger); }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .row.two { grid-template-columns: 1fr 1fr; }
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .actions.three { grid-template-columns: repeat(3, 1fr); }
+      .actions.two { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .section-title {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+      color: var(--primary-dark);
+      font-weight: bold;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .result-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      background: #fafcff;
+    }
+
+    .result-label {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .result-value {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #111827;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 9999;
+      max-width: 320px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .pn-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      font-weight: 700;
+      background: white;
+    }
+
+    /* ✅ helper layout for “two PN inputs side by side” if needed */
+    .pn-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    @media (min-width: 640px) {
+      .pn-split.two {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
 <header class="app-header">
-<div class="header-inner">
-<img src="logo.png" alt="Bonding Solutions Logo" class="logo" onerror="this.style.display='none'" />
-<div class="header-text">
-<h1 id="appTitle">Paint Booth Calculator</h1>
-<p id="appSubtitle">Calculate wall coating, floor mat, and Clear View requirements</p>
-</div>
+  <div class="header-inner">
+    <img src="logo.png" alt="Bonding Solutions Logo" class="logo" onerror="this.style.display='none'" />
+    <div class="header-text">
+      <h1 id="appTitle">Paint Booth Calculator</h1>
+      <p id="appSubtitle">Calculate wall coating, floor mat, and Clear View requirements</p>
+    </div>
+  </div>
 </header>
+
 <div class="container">
-<div class="topbar">
-<select id="languageSelect" aria-label="Language">
-<option value="en">English</option>
-<option value="es">Español</option>
-<option value="fr">Français</option>
-</select>
-<select id="unitSelect" aria-label="Units">
-<option value="imperial">Imperial (ft, gal)</option>
-<option value="metric">Metric (m, L)</option>
-</select>
-</div>
-<div class="grid">
-<section class="card">
-<h2 id="inputsTitle">Booth Inputs</h2>
-<div class="row two">
-<div>
-<label id="companyNameLabel" for="companyName">Company Name</label>
-<input type="text" id="companyName" placeholder="Example: ABC Collision" autocomplete="off" />
-</div>
-<div>
-<label id="purchaseOrderLabel" for="purchaseOrder">Purchase Order</label>
-<input type="text" id="purchaseOrder" placeholder="Example: PO-12345" autocomplete="off" />
-</div>
-<div class="row two">
-<div>
-<label id="widthLabel" for="width">Internal Width (ft)</label>
-<input type="number" id="width" step="0.01" min="0" value="14" />
-</div>
-<div>
-<label id="heightLabel" for="height">Internal Height (ft)</label>
-<input type="number" id="height" step="0.01" min="0" value="9" />
-</div>
-<div class="row two">
-<div>
-<label id="lengthLabel" for="length">Internal Length (ft)</label>
-<input type="number" id="length" step="0.01" min="0" value="27" />
-</div>
-<div>
-<label id="deltaLabel" for="deltaT">Temperature Difference (°F)</label>
-<input type="number" id="deltaT" step="0.01" min="0" placeholder="Optional" />
-</div>
-<div class="section-title" id="lightSectionTitle">Light Fixtures for Clear View</div>
-<div class="row two">
-<div>
-<label id="ceilingLightsLabel" for="ceilingLights">Ceiling Light Fixtures</label>
-<input type="number" id="ceilingLights" step="1" min="0" value="8" />
-</div>
-<div>
-<label id="sidewallLightsLabel" for="sidewallLights">Sidewall Light Fixtures</label>
-<input type="number" id="sidewallLights" step="1" min="0" value="6" />
-</div>
-<div class="section-title" id="presetSectionTitle">Presets</div>
-<div class="row two">
-<div>
-<label id="presetNameLabel" for="presetName">Preset Name</label>
-<input type="text" id="presetName" placeholder="Example: Standard Booth" />
-</div>
-<div>
-<label id="presetLoadLabel" for="presetSelect">Load Preset</label>
-<select id="presetSelect">
-<option value="">Select a saved preset</option>
-</select>
-</div>
-<div class="actions three">
-<button id="savePresetBtn">Save Preset</button>
-<button id="deletePresetBtn" class="danger">Delete Preset</button>
-<button id="resetBtn" class="secondary">Reset</button>
-</div>
-<div class="section-title" id="exportSectionTitle">Export / Order</div>
-<div class="actions two">
-<button id="exportCsvBtn">Export CSV</button>
-<button id="emailOrderBtn">Email Order</button>
-</div>
-<p class="note" id="noteText">
-This calculator uses internal booth dimensions only. Openings and pits are not subtracted.
-</p>
-</section>
+  <div class="topbar">
+    <select id="languageSelect" aria-label="Language">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+    </select>
 
-<section class="card">
-<h2 id="resultsTitle">Results</h2>
+    <select id="unitSelect" aria-label="Units">
+      <option value="imperial">Imperial (ft, gal)</option>
+      <option value="metric">Metric (m, L)</option>
+    </select>
+  </div>
 
-<div class="section-title" id="wallSectionTitle">Wall Coating</div>
-<div class="results-grid">
-<div class="result-box">
-<div class="result-label" id="wallAreaLabel">Wall Area</div>
-<div class="result-value" id="wallAreaResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label" id="productNeededLabel">Product Needed (Gallons)</div>
-<div class="result-value" id="productNeededResult">-</div>
+  <div class="grid">
+    <!-- ================= LEFT: INPUTS + ACTIONS ================= -->
+    <section class="card">
+      <h2 id="inputsTitle">Booth Inputs</h2>
+
+      <div class="row two">
+        <div>
+          <label id="companyNameLabel" for="companyName">Company Name</label>
+          <input type="text" id="companyName" placeholder="Example: ABC Collision" autocomplete="off" />
+        </div>
+
+        <div>
+          <label id="purchaseOrderLabel" for="purchaseOrder">Purchase Order</label>
+          <input type="text" id="purchaseOrder" placeholder="Example: PO-12345" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="row two">
+        <div>
+          <label id="widthLabel" for="width">Internal Width (ft)</label>
+          <input type="number" id="width" step="0.01" min="0" value="14" />
+        </div>
+        <div>
+          <label id="heightLabel" for="height">Internal Height (ft)</label>
+          <input type="number" id="height" step="0.01" min="0" value="9" />
+        </div>
+      </div>
+
+      <div class="row two">
+        <div>
+          <label id="lengthLabel" for="length">Internal Length (ft)</label>
+          <input type="number" id="length" step="0.01" min="0" value="27" />
+        </div>
+        <div>
+          <label id="deltaLabel" for="deltaT">Temperature Difference (°F)</label>
+          <input type="number" id="deltaT" step="0.01" min="0" placeholder="Optional" />
+        </div>
+      </div>
+
+      <div class="section-title" id="lightSectionTitle">Light Fixtures for Clear View</div>
+
+      <div class="row two">
+        <div>
+          <label id="ceilingLightsLabel" for="ceilingLights">Ceiling Light Fixtures</label>
+          <input type="number" id="ceilingLights" step="1" min="0" value="8" />
+        </div>
+        <div>
+          <label id="sidewallLightsLabel" for="sidewallLights">Sidewall Light Fixtures</label>
+          <input type="number" id="sidewallLights" step="1" min="0" value="6" />
+        </div>
+      </div>
+
+      <div class="section-title" id="presetSectionTitle">Presets</div>
+
+      <div class="row two">
+        <div>
+          <label id="presetNameLabel" for="presetName">Preset Name</label>
+          <input type="text" id="presetName" placeholder="Example: Standard Booth" />
+        </div>
+        <div>
+          <label id="presetLoadLabel" for="presetSelect">Load Preset</label>
+          <select id="presetSelect">
+            <option value="">Select a saved preset</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions three">
+        <button id="savePresetBtn">Save Preset</button>
+        <button id="deletePresetBtn" class="danger">Delete Preset</button>
+        <button id="resetBtn" class="secondary">Reset</button>
+      </div>
+
+      <div class="section-title" id="exportSectionTitle">Export / Order</div>
+
+      <div class="actions two">
+        <button id="exportCsvBtn">Export CSV</button>
+        <button id="emailOrderBtn">Email Order</button>
+      </div>
+
+      <p class="note" id="noteText">
+        This calculator uses internal booth dimensions only. Openings and pits are not subtracted.
+      </p>
+    </section>
+
+    <!-- ================= RIGHT: RESULTS ================= -->
+    <section class="card">
+      <h2 id="resultsTitle">Results</h2>
+
+      <div class="section-title" id="wallSectionTitle">Wall Coating</div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label" id="wallAreaLabel">Wall Area</div>
+          <div class="result-value" id="wallAreaResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="productNeededLabel">Product Needed (Gallons)</div>
+          <div class="result-value" id="productNeededResult">-</div>
+        </div>
+
+        <!-- ✅ split PN inputs: 1-gal and 5-gal -->
+        <div class="result-box">
+          <div class="result-label">PN (Wall)</div>
+
+          <div class="pn-split two">
+            <div>
+              <label for="wallPn1GalInput" style="margin-bottom:6px;color:#6b7280;font-weight:700;">1-Gallon PN</label>
+              <input class="pn-input" id="wallPn1GalInput" type="text" inputmode="numeric" />
+            </div>
+            <div>
+              <label for="wallPn5GalInput" style="margin-bottom:6px;color:#6b7280;font-weight:700;">5-Gallon PN</label>
+              <input class="pn-input" id="wallPn5GalInput" type="text" inputmode="numeric" />
+            </div>
+          </div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label">1-Gallon Containers</div>
+          <div class="result-value" id="wallOneGalContainersResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label">5-Gallon Containers</div>
+          <div class="result-value" id="wallFiveGalContainersResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="wallOrderedGallonsResultLabel">Wall Ordered Gallons</div>
+          <div class="result-value" id="wallOrderedGallonsResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="weightLabel">Estimated Product Weight</div>
+          <div class="result-value" id="weightResult">-</div>
+        </div>
+
+        <div class="section-title" id="floorSectionTitle">Floor Mat</div>
+
+        <div class="result-box">
+          <div class="result-label" id="floorAreaLabel">Floor Area</div>
+          <div class="result-value" id="floorAreaResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="matsLabel">Mats Needed</div>
+          <div class="result-value" id="matsResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label">PN (Floor)</div>
+          <input class="pn-input" id="floorPnInput" type="text" inputmode="numeric" />
+        </div>
+
+        <div class="section-title" id="clearViewSectionTitle">Clear View</div>
+
+        <div class="result-box">
+          <div class="result-label" id="totalLightsLabel">Total Lights</div>
+          <div class="result-value" id="totalLightsResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="glassAreaLabel">Glass Area</div>
+          <div class="result-value" id="glassAreaResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="clearViewNeededLabel">Clear View Needed</div>
+          <div class="result-value" id="clearViewNeededResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label">PN (Clear View)</div>
+          <input class="pn-input" id="clearViewPnInput" type="text" inputmode="numeric" />
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="clearViewQuartsLabel">Equivalent Quarts</div>
+          <div class="result-value" id="clearViewQuartsResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="clearViewPintsLabel">Equivalent Pints</div>
+          <div class="result-value" id="clearViewPintsResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="clearViewOrderLabel">Clear View Order Quantity</div>
+          <div class="result-value" id="clearViewOrderResult">-</div>
+        </div>
+
+        <div class="footer-note" id="clearViewNote">
+          Based on 2 ft x 4 ft glass per light, at 400–500 sq ft per gallon. Minimum order is 1 gallon when Clear View is needed.
+        </div>
+
+        <div class="section-title" id="heatSectionTitle">Heat Estimate</div>
+
+        <div class="result-box">
+          <div class="result-label" id="volumeLabel">Booth Volume</div>
+          <div class="result-value" id="volumeResult">-</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label" id="btuLabel">Estimated Heat Load</div>
+          <div class="result-value" id="btuResult">-</div>
+        </div>
+      </div>
+
+      <div class="footer-note" id="footerNote">
+        Coverage used: 150 sq ft per gallon for wall coating, and 400 sq ft per floor mat.
+      </div>
+    </section>
+  </div>
 </div>
 
-<!-- Wall PN split -->
-<div class="result-box">
-<div class="result-label">PN (Wall) - 1-Gallon Containers</div>
-<input class="pn-input" id="wallPnInput1Gal" type="text" inputmode="numeric" />
-</div>
-<div class="result-box">
-<div class="result-label">PN (Wall) - 5-Gallon Containers</div>
-<input class="pn-input" id="wallPnInput5Gal" type="text" inputmode="numeric" />
-</div>
-
-<div class="result-box">
-<div class="result-label">1-Gallon Containers</div>
-<div class="result-value" id="wallOneGalContainersResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label">5-Gallon Containers</div>
-<div class="result-value" id="wallFiveGalContainersResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label">Wall Ordered Gallons</div>
-<div class="result-value" id="wallOrderedGallonsResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label" id="weightLabel">Estimated Product Weight</div>
-<div class="result-value" id="weightResult">-</div>
-</div>
-
-<div class="section-title" id="floorSectionTitle">Floor Mat</div>
-<div class="results-grid">
-<div class="result-box">
-<div class="result-label" id="floorAreaLabel">Floor Area</div>
-<div class="result-value" id="floorAreaResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label" id="matsLabel">Mats Needed</div>
-<div class="result-value" id="matsResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label">PN (Floor)</div>
-<input class="pn-input" id="floorPnInput" type="text" inputmode="numeric" />
-</div>
-</div>
-
-<div class="section-title" id="clearViewSectionTitle">Clear View</div>
-<div class="results-grid">
-<div class="result-box">
-<div class="result-label" id="totalLightsLabel">Total Lights</div>
-<div class="result-value" id="totalLightsResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label" id="glassAreaLabel">Glass Area</div>
-<div class="result-value" id="glassAreaResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label" id="clearViewNeededLabel">Clear View Needed</div>
-<div class="result-value" id="clearViewNeededResult">-</div>
-</div>
-
-<!-- Clear View PN split -->
-<div class="result-box">
-<div class="result-label">PN (Clear View) - 1-Gallon Containers</div>
-<input class="pn-input" id="clearViewPnInput1Gal" type="text" inputmode="numeric" />
-</div>
-<div class="result-box">
-<div class="result-label">PN (Clear View) - 5-Gallon Containers</div>
-<input class="pn-input" id="clearViewPnInput5Gal" type="text" inputmode="numeric" />
-</div>
-
-<div class="result-box">
-<div class="result-label" id="clearViewQuartsLabel">Equivalent Quarts</div>
-<div class="result-value" id="clearViewQuartsResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label" id="clearViewPintsLabel">Equivalent Pints</div>
-<div class="result-value" id="clearViewPintsResult">-</div>
-</div>
-
-<!-- New: container counts for Clear View -->
-<div class="result-box">
-<div class="result-label">1-Gallon Containers</div>
-<div class="result-value" id="clearViewOneGalContainersResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label">5-Gallon Containers</div>
-<div class="result-value" id="clearViewFiveGalContainersResult">-</div>
-</div>
-
-<div class="result-box">
-<div class="result-label" id="clearViewOrderLabel">Clear View Order Quantity</div>
-<div class="result-value" id="clearViewOrderResult">-</div>
-</div>
-
-<div class="footer-note" id="clearViewNote">
-Based on 2 ft x 4 ft glass per light, at 400–500 sq ft per gallon. Minimum order is 1 gallon when Clear View is needed.
-</div>
-
-<div class="section-title" id="heatSectionTitle">Heat Estimate</div>
-<div class="results-grid">
-<div class="result-box">
-<div class="result-label" id="volumeLabel">Booth Volume</div>
-<div class="result-value" id="volumeResult">-</div>
-</div>
-<div class="result-box">
-<div class="result-label" id="btuLabel">Estimated Heat Load</div>
-<div class="result-value" id="btuResult">-</div>
-</div>
-<div class="footer-note" id="footerNote">
-Coverage used: 150 sq ft per gallon for wall coating, and 400 sq ft per floor mat.
-</div>
-</section>
-</div>
 <div id="toast" class="toast"></div>
 
 <script>
-const APP = {
-wallCoverageSqFtPerGallon: 150,
-wallWeightLbPerGallon: 8.6,
-floorMatCoverageSqFt: 400,
-glassSqFtPerLight: 8,
-clearViewCoverageLowSqFtPerGallon: 400,
-clearViewCoverageHighSqFtPerGallon: 500,
-sqFtToSqM: 0.092903,
-gallonToLiter: 3.78541,
-lbToKg: 0.453592,
-cuFtToCuM: 0.0283168,
-presetKey: "paintBoothCalculatorPresets",
-emailRecipients: "eric@bondingsolutions.net,jamillerplio@live.com",
-emailSubject: "Like 90 order",
-
-// PN defaults (split by 1-gal vs 5-gal)
-pnWallLow: "10032",   // 1-gallon
-pnWallHigh: "10033",  // 5-gallon
-pnFloor: "10050",
-pnClearViewLow: "10032",   // 1-gallon (per your mapping)
-pnClearViewHigh: "10033",  // 5-gallon
-
-// Container sizes
-wallContainer1Gal: 1,
-wallContainer5Gal: 5,
-clearContainer1Gal: 1,
-clearContainer5Gal: 5
-};
-
-const TEXT = {
-en: {
-appTitle: "Paint Booth Calculator",
-appSubtitle: "Calculate wall coating, floor mat, and Clear View requirements",
-inputsTitle: "Booth Inputs",
-companyNameLabel: "Company Name",
-purchaseOrderLabel: "Purchase Order",
-widthLabel: "Internal Width",
-heightLabel: "Internal Height",
-lengthLabel: "Internal Length",
-deltaLabelImperial: "Temperature Difference (°F)",
-deltaLabelMetric: "Temperature Difference (°C)",
-lightSectionTitle: "Light Fixtures for Clear View",
-ceilingLightsLabel: "Ceiling Light Fixtures",
-sidewallLightsLabel: "Sidewall Light Fixtures",
-presetSectionTitle: "Presets",
-presetNameLabel: "Preset Name",
-presetLoadLabel: "Load Preset",
-savePresetBtn: "Save Preset",
-deletePresetBtn: "Delete Preset",
-resetBtn: "Reset",
-exportSectionTitle: "Export / Order",
-exportCsvBtn: "Export CSV",
-emailOrderBtn: "Email Order",
-noteText: "This calculator uses internal booth dimensions only. Openings and pits are not subtracted.",
-resultsTitle: "Results",
-wallSectionTitle: "Wall Coating",
-wallAreaLabel: "Wall Area",
-productNeededLabel: "Product Needed (Gallons)",
-weightLabel: "Estimated Product Weight",
-floorSectionTitle: "Floor Mat",
-floorAreaLabel: "Floor Area",
-matsLabel: "Mats Needed",
-clearViewSectionTitle: "Clear View",
-totalLightsLabel: "Total Lights",
-glassAreaLabel: "Glass Area",
-clearViewNeededLabel: "Clear View Needed",
-clearViewQuartsLabel: "Equivalent Quarts",
-clearViewPintsLabel: "Equivalent Pints",
-clearViewOrderLabel: "Clear View Order Quantity",
-clearViewNote: "Based on 2 ft x 4 ft glass per light, at 400–500 sq ft per gallon. Minimum order is 1 gallon when Clear View is needed.",
-heatSectionTitle: "Heat Estimate",
-volumeLabel: "Booth Volume",
-btuLabel: "Estimated Heat Load",
-footerNote: "Coverage used: 150 sq ft per gallon for wall coating, and 400 sq ft per floor mat.",
-companyPlaceholder: "Example: ABC Collision",
-purchaseOrderPlaceholder: "Example: PO-12345",
-presetPlaceholder: "Example: Standard Booth",
-optionalPlaceholder: "Optional",
-presetDefaultOption: "Select a saved preset",
-presetSaved: "Preset saved",
-presetDeleted: "Preset deleted",
-presetLoaded: "Preset loaded",
-selectPreset: "Please select a preset",
-csvExported: "CSV exported",
-resetDone: "Calculator reset",
-emailOpened: "Email draft opened"
-},
-es: {
-appTitle: "Calculadora de Cabina de Pintura",
-appSubtitle: "Calcule recubrimiento de paredes, tapetes de piso y Clear View",
-inputsTitle: "Datos de la Cabina",
-companyNameLabel: "Nombre de la Empresa",
-purchaseOrderLabel: "Orden de Compra",
-widthLabel: "Ancho Interno",
-heightLabel: "Altura Interna",
-lengthLabel: "Longitud Interna",
-deltaLabelImperial: "Diferencia de Temperatura (°F)",
-deltaLabelMetric: "Diferencia de Temperatura (°C)",
-lightSectionTitle: "Lámparas para Clear View",
-ceilingLightsLabel: "Lámparas de Techo",
-sidewallLightsLabel: "Lámparas Laterales",
-presetSectionTitle: "Configuraciones Guardadas",
-presetNameLabel: "Nombre de Configuración",
-presetLoadLabel: "Cargar Configuración",
-savePresetBtn: "Guardar Configuración",
-deletePresetBtn: "Eliminar Configuración",
-resetBtn: "Restablecer",
-exportSectionTitle: "Exportar / Pedido",
-exportCsvBtn: "Exportar CSV",
-emailOrderBtn: "Enviar Pedido por Correo",
-noteText: "Esta calculadora usa únicamente las dimensiones internas de la cabina. No se descuentan aperturas ni fosas.",
-resultsTitle: "Resultados",
-wallSectionTitle: "Recubrimiento de Paredes",
-wallAreaLabel: "Área de Pared",
-productNeededLabel: "Producto Necesario (Galones)",
-weightLabel: "Peso Estimado del Producto",
-floorSectionTitle: "Tapete de Piso",
-floorAreaLabel: "Área de Piso",
-matsLabel: "Tapetes Necesarios",
-clearViewSectionTitle: "Clear View",
-totalLightsLabel: "Total de Lámparas",
-glassAreaLabel: "Área de Vidrio",
-clearViewNeededLabel: "Clear View Necesario",
-clearViewQuartsLabel: "Equivalente en Cuartos",
-clearViewPintsLabel: "Equivalente en Pintas",
-clearViewOrderLabel: "Cantidad a Ordenar de Clear View",
-clearViewNote: "Basado en vidrio de 2 pies x 4 pies por lámpara, con cobertura de 400–500 pies² por galón. La orden mínima es 1 galón cuando se necesita Clear View.",
-heatSectionTitle: "Estimación de Calor",
-volumeLabel: "Volumen de la Cabina",
-btuLabel: "Carga de Calor Estimada",
-footerNote: "Cobertura usada: 150 pies² por galón para recubrimiento de pared, y 400 pies² por tapete de piso.",
-companyPlaceholder: "Ejemplo: ABC Collision",
-purchaseOrderPlaceholder: "Ejemplo: PO-12345",
-presetPlaceholder: "Ejemplo: Cabina Estándar",
-optionalPlaceholder: "Opcional",
-presetDefaultOption: "Seleccione una configuración guardada",
-presetSaved: "Configuración guardada",
-presetDeleted: "Configuración eliminada",
-presetLoaded: "Configuración cargada",
-selectPreset: "Seleccione una configuración",
-csvExported: "CSV exportado",
-resetDone: "Calculadora restablecida",
-emailOpened: "Borrador de correo abierto"
-},
-fr: {
-appTitle: "Calculateur de Cabine de Peinture",
-appSubtitle: "Calculez les besoins en revêtement mural, tapis de sol et Clear View",
-inputsTitle: "Données de la Cabine",
-companyNameLabel: "Nom de l’Entreprise",
-purchaseOrderLabel: "Bon de Commande",
-widthLabel: "Largeur Intérieure",
-heightLabel: "Hauteur Intérieure",
-lengthLabel: "Longueur Intérieure",
-deltaLabelImperial: "Différence de Température (°F)",
-deltaLabelMetric: "Différence de Température (°C)",
-lightSectionTitle: "Luminaires pour Clear View",
-ceilingLightsLabel: "Luminaires de Plafond",
-sidewallLightsLabel: "Luminaires Muraux",
-presetSectionTitle: "Configurations Enregistrées",
-presetNameLabel: "Nom de la Configuration",
-presetLoadLabel: "Charger une Configuration",
-savePresetBtn: "Enregistrer la Configuration",
-deletePresetBtn: "Supprimer la Configuration",
-resetBtn: "Réinitialiser",
-exportSectionTitle: "Export / Commande",
-exportCsvBtn: "Exporter CSV",
-emailOrderBtn: "Envoyer la Commande par Courriel",
-noteText: "Cette calculatrice utilise uniquement les dimensions intérieures de la cabine. Les ouvertures et fosses ne sont pas soustraites.",
-resultsTitle: "Résultats",
-wallSectionTitle: "Revêtement des Murs",
-wallAreaLabel: "Surface Murale",
-productNeededLabel: "Produit Nécessaire (Galons)",
-weightLabel: "Poids Estimé du Produit",
-floorSectionTitle: "Tapis de Sol",
-floorAreaLabel: "Surface du Sol",
-matsLabel: "Tapis Nécessaires",
-clearViewSectionTitle: "Clear View",
-totalLightsLabel: "Nombre Total de Luminaires",
-glassAreaLabel: "Surface de Verre",
-clearViewNeededLabel: "Clear View Nécessaire",
-clearViewQuartsLabel: "Équivalent en Quarts",
-clearViewPintsLabel: "Équivalent en Pintes",
-clearViewOrderLabel: "Quantité de Commande Clear View",
-clearViewNote: "Basé sur un verre de 2 pi x 4 pi par luminaire, avec une couverture de 400 à 500 pi² par gallon. La commande minimale est de 1 gallon lorsque Clear View est requis.",
-heatSectionTitle: "Estimation de Chaleur",
-volumeLabel: "Volume de la Cabine",
-btuLabel: "Charge Thermique Estimée",
-footerNote: "Couverture utilisée : 150 pi² par gallon pour le revêtement mural, et 400 pi² par tapis de sol.",
-companyPlaceholder: "Exemple : ABC Collision",
-purchaseOrderPlaceholder: "Exemple : BC-12345",
-presetPlaceholder: "Exemple : Cabine Standard",
-optionalPlaceholder: "Optionnel",
-presetDefaultOption: "Sélectionnez une configuration enregistrée",
-presetSaved: "Configuration enregistrée",
-presetDeleted: "Configuration supprimée",
-presetLoaded: "Configuration chargée",
-selectPreset: "Veuillez sélectionner une configuration",
-csvExported: "CSV exporté",
-resetDone: "Calculatrice réinitialisée",
-emailOpened: "Brouillon de courriel ouvert"
-}
-};
-
-const el = {
-languageSelect: document.getElementById("languageSelect"),
-unitSelect: document.getElementById("unitSelect"),
-companyName: document.getElementById("companyName"),
-purchaseOrder: document.getElementById("purchaseOrder"),
-width: document.getElementById("width"),
-height: document.getElementById("height"),
-length: document.getElementById("length"),
-deltaT: document.getElementById("deltaT"),
-ceilingLights: document.getElementById("ceilingLights"),
-sidewallLights: document.getElementById("sidewallLights"),
-presetName: document.getElementById("presetName"),
-presetSelect: document.getElementById("presetSelect"),
-savePresetBtn: document.getElementById("savePresetBtn"),
-deletePresetBtn: document.getElementById("deletePresetBtn"),
-resetBtn: document.getElementById("resetBtn"),
-exportCsvBtn: document.getElementById("exportCsvBtn"),
-emailOrderBtn: document.getElementById("emailOrderBtn"),
-toast: document.getElementById("toast"),
-appTitle: document.getElementById("appTitle"),
-appSubtitle: document.getElementById("appSubtitle"),
-inputsTitle: document.getElementById("inputsTitle"),
-companyNameLabel: document.getElementById("companyNameLabel"),
-purchaseOrderLabel: document.getElementById("purchaseOrderLabel"),
-widthLabel: document.getElementById("widthLabel"),
-heightLabel: document.getElementById("heightLabel"),
-lengthLabel: document.getElementById("lengthLabel"),
-deltaLabel: document.getElementById("deltaLabel"),
-lightSectionTitle: document.getElementById("lightSectionTitle"),
-ceilingLightsLabel: document.getElementById("ceilingLightsLabel"),
-sidewallLightsLabel: document.getElementById("sidewallLightsLabel"),
-presetSectionTitle: document.getElementById("presetSectionTitle"),
-presetNameLabel: document.getElementById("presetNameLabel"),
-presetLoadLabel: document.getElementById("presetLoadLabel"),
-exportSectionTitle: document.getElementById("exportSectionTitle"),
-noteText: document.getElementById("noteText"),
-resultsTitle: document.getElementById("resultsTitle"),
-wallSectionTitle: document.getElementById("wallSectionTitle"),
-wallAreaLabel: document.getElementById("wallAreaLabel"),
-productNeededLabel: document.getElementById("productNeededLabel"),
-weightLabel: document.getElementById("weightLabel"),
-floorSectionTitle: document.getElementById("floorSectionTitle"),
-floorAreaLabel: document.getElementById("floorAreaLabel"),
-matsLabel: document.getElementById("matsLabel"),
-clearViewSectionTitle: document.getElementById("clearViewSectionTitle"),
-totalLightsLabel: document.getElementById("totalLightsLabel"),
-glassAreaLabel: document.getElementById("glassAreaLabel"),
-clearViewNeededLabel: document.getElementById("clearViewNeededLabel"),
-clearViewQuartsLabel: document.getElementById("clearViewQuartsLabel"),
-clearViewPintsLabel: document.getElementById("clearViewPintsLabel"),
-clearViewOrderLabel: document.getElementById("clearViewOrderLabel"),
-clearViewNote: document.getElementById("clearViewNote"),
-heatSectionTitle: document.getElementById("heatSectionTitle"),
-volumeLabel: document.getElementById("volumeLabel"),
-btuLabel: document.getElementById("btuLabel"),
-footerNote: document.getElementById("footerNote"),
-
-wallAreaResult: document.getElementById("wallAreaResult"),
-productNeededResult: document.getElementById("productNeededResult"),
-weightResult: document.getElementById("weightResult"),
-floorAreaResult: document.getElementById("floorAreaResult"),
-matsResult: document.getElementById("matsResult"),
-totalLightsResult: document.getElementById("totalLightsResult"),
-glassAreaResult: document.getElementById("glassAreaResult"),
-clearViewNeededResult: document.getElementById("clearViewNeededResult"),
-clearViewQuartsResult: document.getElementById("clearViewQuartsResult"),
-clearViewPintsResult: document.getElementById("clearViewPintsResult"),
-clearViewOrderResult: document.getElementById("clearViewOrderResult"),
-volumeResult: document.getElementById("volumeResult"),
-btuResult: document.getElementById("btuResult"),
-
-wallOneGalContainersResult: document.getElementById("wallOneGalContainersResult"),
-wallFiveGalContainersResult: document.getElementById("wallFiveGalContainersResult"),
-wallOrderedGallonsResult: document.getElementById("wallOrderedGallonsResult"),
-
-wallPnInput1Gal: document.getElementById("wallPnInput1Gal"),
-wallPnInput5Gal: document.getElementById("wallPnInput5Gal"),
-floorPnInput: document.getElementById("floorPnInput"),
-clearViewPnInput1Gal: document.getElementById("clearViewPnInput1Gal"),
-clearViewPnInput5Gal: document.getElementById("clearViewPnInput5Gal"),
-
-clearViewOneGalContainersResult: document.getElementById("clearViewOneGalContainersResult"),
-clearViewFiveGalContainersResult: document.getElementById("clearViewFiveGalContainersResult")
-};
-
-function lang() { return el.languageSelect.value; }
-function units() { return el.unitSelect.value; }
-function t(key) { return TEXT[lang()][key]; }
-
-function showToast(message) {
-el.toast.textContent = message;
-el.toast.classList.add("show");
-clearTimeout(showToast.timer);
-showToast.timer = setTimeout(() => el.toast.classList.remove("show"), 1800);
-}
-
-function formatNumber(value, decimals = 2) {
-return Number(value).toLocaleString(undefined, {
-minimumFractionDigits: decimals,
-maximumFractionDigits: decimals
-});
-}
-
-function convertInputToFeet(value) {
-return units() === "imperial" ? value : value * 3.28084;
-}
-
-function getInputs() {
-return {
-companyName: el.companyName.value.trim(),
-purchaseOrder: el.purchaseOrder.value.trim(),
-widthInput: parseFloat(el.width.value) || 0,
-heightInput: parseFloat(el.height.value) || 0,
-lengthInput: parseFloat(el.length.value) || 0,
-deltaInput: el.deltaT.value === "" ? null : parseFloat(el.deltaT.value),
-ceilingLights: parseInt(el.ceilingLights.value, 10) || 0,
-sidewallLights: parseInt(el.sidewallLights.value, 10) || 0
-};
-}
-
-// Greedy for 1-gal + 5-gal container split, using ceil on gallons needed.
-function chooseSplitContainers(gallonsNeeded, oneGalSize, fiveGalSize) {
-const safeNeeded = Math.max(0, gallonsNeeded || 0);
-const neededRoundedUp = Math.max(0, Math.ceil(safeNeeded));
-const fiveContainers = Math.floor(neededRoundedUp / fiveGalSize);
-const remainingAfterFive = neededRoundedUp - fiveContainers * fiveGalSize;
-const oneContainers = remainingAfterFive / oneGalSize; // should be integer with 1-gal size
-const orderedGallons = fiveContainers * fiveGalSize + oneContainers * oneGalSize;
-
-return {
-neededRoundedUp,
-fiveContainers,
-oneContainers,
-orderedGallons
-};
-}
-
-function calculate() {
-const input = getInputs();
-
-const widthFt = convertInputToFeet(input.widthInput);
-const heightFt = convertInputToFeet(input.heightInput);
-const lengthFt = convertInputToFeet(input.lengthInput);
-
-// wall area: 2*(W*H)+2*(L*H)
-const wallAreaFt2 = 2 * (widthFt * heightFt) + 2 * (lengthFt * heightFt);
-const gallonsNeeded = wallAreaFt2 / APP.wallCoverageSqFtPerGallon;
-
-// Wall container ordering (Option B)
-const wallContainerPlan = chooseSplitContainers(gallonsNeeded, APP.wallContainer1Gal, APP.wallContainer5Gal);
-
-const weightLb = gallonsNeeded * APP.wallWeightLbPerGallon;
-
-// floor
-const floorAreaFt2 = widthFt * lengthFt;
-const matsNeeded = Math.ceil(floorAreaFt2 / APP.floorMatCoverageSqFt);
-
-const totalLights = input.ceilingLights + input.sidewallLights;
-const glassAreaFt2 = totalLights * APP.glassSqFtPerLight;
-
-// Clear View gallons range:
-const clearViewGalMin = glassAreaFt2 / APP.clearViewCoverageHighSqFtPerGallon;
-const clearViewGalMax = glassAreaFt2 / APP.clearViewCoverageLowSqFtPerGallon;
-
-// Clear View ordered gallons (keep your existing rounding/min rule)
-const clearViewOrderGallons = totalLights > 0 ? Math.max(1, Math.ceil(clearViewGalMax)) : 0;
-
-// Clear View container split (new)
-const clearViewContainerPlan = chooseSplitContainers(
-clearViewOrderGallons,
-APP.clearContainer1Gal,
-APP.clearContainer5Gal
-);
-
-const clearViewQtMin = clearViewGalMin * 4;
-const clearViewQtMax = clearViewGalMax * 4;
-const clearViewPtMin = clearViewGalMin * 8;
-const clearViewPtMax = clearViewGalMax * 8;
-
-const volumeFt3 = widthFt * heightFt * lengthFt;
-
-let deltaF = null;
-if (input.deltaInput !== null && !isNaN(input.deltaInput)) {
-deltaF = units() === "imperial"
-? input.deltaInput
-: input.deltaInput * 9 / 5;
-}
-const btu = deltaF !== null ? volumeFt3 * deltaF * 0.24 : null;
-
-return {
-input,
-wallAreaFt2,
-gallonsNeeded,
-wallContainerPlan,
-weightLb,
-floorAreaFt2,
-matsNeeded,
-totalLights,
-glassAreaFt2,
-clearViewGalMin,
-clearViewGalMax,
-clearViewQtMin,
-clearViewQtMax,
-clearViewPtMin,
-clearViewPtMax,
-clearViewOrderGallons,
-clearViewContainerPlan,
-volumeFt3,
-btu
-};
-}
-
-// Auto-overwrite both PN fields every run (rule #1 behavior)
-function renderWallPnAutoFill() {
-el.wallPnInput1Gal.value = APP.pnWallLow;   // 1-gal PN
-el.wallPnInput5Gal.value = APP.pnWallHigh;  // 5-gal PN
-}
-
-function renderClearViewPnAutoFill() {
-el.clearViewPnInput1Gal.value = APP.pnClearViewLow;   // 1-gal PN
-el.clearViewPnInput5Gal.value = APP.pnClearViewHigh;  // 5-gal PN
-}
-
-function renderResults() {
-const r = calculate();
-
-if (units() === "imperial") {
-el.wallAreaResult.textContent = `${formatNumber(r.wallAreaFt2, 0)} ft²`;
-el.productNeededResult.textContent = `${formatNumber(r.gallonsNeeded, 2)} gal`;
-el.weightResult.textContent = `${formatNumber(r.weightLb, 1)} lb`;
-el.floorAreaResult.textContent = `${formatNumber(r.floorAreaFt2, 0)} ft²`;
-el.glassAreaResult.textContent = `${formatNumber(r.glassAreaFt2, 0)} ft²`;
-el.clearViewNeededResult.textContent =
-`${formatNumber(r.clearViewGalMin, 2)} - ${formatNumber(r.clearViewGalMax, 2)} gal`;
-el.volumeResult.textContent = `${formatNumber(r.volumeFt3, 0)} ft³`;
-} else {
-el.wallAreaResult.textContent = `${formatNumber(r.wallAreaFt2 * APP.sqFtToSqM, 2)} m²`;
-el.productNeededResult.textContent = `${formatNumber(r.gallonsNeeded * APP.gallonToLiter, 2)} L`;
-el.weightResult.textContent = `${formatNumber(r.weightLb * APP.lbToKg, 2)} kg`;
-el.floorAreaResult.textContent = `${formatNumber(r.floorAreaFt2 * APP.sqFtToSqM, 2)} m²`;
-el.glassAreaResult.textContent = `${formatNumber(r.glassAreaFt2 * APP.sqFtToSqM, 2)} m²`;
-el.clearViewNeededResult.textContent =
-`${formatNumber(r.clearViewGalMin * APP.gallonToLiter, 2)} - ${formatNumber(r.clearViewGalMax * APP.gallonToLiter, 2)} L`;
-el.volumeResult.textContent = `${formatNumber(r.volumeFt3 * APP.cuFtToCuM, 2)} m³`;
-}
-
-// Wall containers
-el.wallOneGalContainersResult.textContent =
-r.wallContainerPlan.oneContainers > 0 ? `${formatNumber(r.wallContainerPlan.oneContainers, 0)}` : "0";
-el.wallFiveGalContainersResult.textContent =
-r.wallContainerPlan.fiveContainers > 0 ? `${formatNumber(r.wallContainerPlan.fiveContainers, 0)}` : "0";
-el.wallOrderedGallonsResult.textContent =
-`${formatNumber(r.wallContainerPlan.orderedGallons, 0)} gal`;
-
-renderWallPnAutoFill();
-
-// Floor PN
-el.matsResult.textContent = `${formatNumber(r.matsNeeded, 0)}`;
-el.floorPnInput.value = APP.pnFloor;
-
-// Wall weight already done above
-el.totalLightsResult.textContent = `${formatNumber(r.totalLights, 0)}`;
-
-// Clear View equivalents
-el.clearViewQuartsResult.textContent =
-`${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`;
-el.clearViewPintsResult.textContent =
-`${formatNumber(r.clearViewPtMin, 2)} - ${formatNumber(r.clearViewPtMax, 2)} pt`;
-
-// Clear View containers
-el.clearViewOneGalContainersResult.textContent =
-r.clearViewContainerPlan.oneContainers > 0 ? `${formatNumber(r.clearViewContainerPlan.oneContainers, 0)}` : "0";
-el.clearViewFiveGalContainersResult.textContent =
-r.clearViewContainerPlan.fiveContainers > 0 ? `${formatNumber(r.clearViewContainerPlan.fiveContainers, 0)}` : "0";
-
-el.clearViewOrderResult.textContent =
-r.clearViewOrderGallons > 0 ? `${formatNumber(r.clearViewOrderGallons, 0)} gal` : `0 gal`;
-
-renderClearViewPnAutoFill();
-
-el.btuResult.textContent = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "-";
-}
-
-function loadPresets() {
-const raw = localStorage.getItem(APP.presetKey);
-try { return raw ? JSON.parse(raw) : []; } catch { return []; }
-}
-function savePresetsToStorage(presets) {
-localStorage.setItem(APP.presetKey, JSON.stringify(presets));
-}
-function populatePresetDropdown() {
-const presets = loadPresets();
-const currentValue = el.presetSelect.value;
-el.presetSelect.innerHTML = "";
-const defaultOption = document.createElement("option");
-defaultOption.value = "";
-defaultOption.textContent = t("presetDefaultOption");
-el.presetSelect.appendChild(defaultOption);
-presets.forEach((preset, index) => {
-const option = document.createElement("option");
-option.value = index;
-option.textContent = preset.name;
-el.presetSelect.appendChild(option);
-});
-if (currentValue !== "") el.presetSelect.value = currentValue;
-}
-
-function updateLabels() {
-const isImperial = units() === "imperial";
-el.appTitle.textContent = t("appTitle");
-el.appSubtitle.textContent = t("appSubtitle");
-el.inputsTitle.textContent = t("inputsTitle");
-el.companyNameLabel.textContent = t("companyNameLabel");
-el.purchaseOrderLabel.textContent = t("purchaseOrderLabel");
-el.widthLabel.textContent = `${t("widthLabel")} ${isImperial ? "(ft)" : "(m)"}`;
-el.heightLabel.textContent = `${t("heightLabel")} ${isImperial ? "(ft)" : "(m)"}`;
-el.lengthLabel.textContent = `${t("lengthLabel")} ${isImperial ? "(ft)" : "(m)"}`;
-el.deltaLabel.textContent = isImperial ? t("deltaLabelImperial") : t("deltaLabelMetric");
-el.lightSectionTitle.textContent = t("lightSectionTitle");
-el.ceilingLightsLabel.textContent = t("ceilingLightsLabel");
-el.sidewallLightsLabel.textContent = t("sidewallLightsLabel");
-el.presetSectionTitle.textContent = t("presetSectionTitle");
-el.presetNameLabel.textContent = t("presetNameLabel");
-el.presetLoadLabel.textContent = t("presetLoadLabel");
-el.savePresetBtn.textContent = t("savePresetBtn");
-el.deletePresetBtn.textContent = t("deletePresetBtn");
-el.resetBtn.textContent = t("resetBtn");
-el.exportSectionTitle.textContent = t("exportSectionTitle");
-el.exportCsvBtn.textContent = t("exportCsvBtn");
-el.emailOrderBtn.textContent = t("emailOrderBtn");
-el.noteText.textContent = t("noteText");
-el.resultsTitle.textContent = t("resultsTitle");
-el.wallSectionTitle.textContent = t("wallSectionTitle");
-el.wallAreaLabel.textContent = t("wallAreaLabel");
-el.productNeededLabel.textContent = t("productNeededLabel");
-el.weightLabel.textContent = t("weightLabel");
-el.floorSectionTitle.textContent = t("floorSectionTitle");
-el.floorAreaLabel.textContent = t("floorAreaLabel");
-el.matsLabel.textContent = t("matsLabel");
-el.clearViewSectionTitle.textContent = t("clearViewSectionTitle");
-el.totalLightsLabel.textContent = t("totalLightsLabel");
-el.glassAreaLabel.textContent = t("glassAreaLabel");
-el.clearViewNeededLabel.textContent = t("clearViewNeededLabel");
-el.clearViewQuartsLabel.textContent = t("clearViewQuartsLabel");
-el.clearViewPintsLabel.textContent = t("clearViewPintsLabel");
-el.clearViewOrderLabel.textContent = t("clearViewOrderLabel");
-el.clearViewNote.textContent = t("clearViewNote");
-el.heatSectionTitle.textContent = t("heatSectionTitle");
-el.volumeLabel.textContent = t("volumeLabel");
-el.btuLabel.textContent = t("btuLabel");
-el.footerNote.textContent = t("footerNote");
-el.companyName.placeholder = t("companyPlaceholder");
-el.purchaseOrder.placeholder = t("purchaseOrderPlaceholder");
-el.presetName.placeholder = t("presetPlaceholder");
-el.deltaT.placeholder = t("optionalPlaceholder");
-populatePresetDropdown();
-}
-
-function savePreset() {
-const presets = loadPresets();
-const input = getInputs();
-const preset = {
-name: el.presetName.value.trim() || `Preset ${presets.length + 1}`,
-language: lang(),
-unitSystem: units(),
-width: input.widthInput,
-height: input.heightInput,
-length: input.lengthInput,
-deltaT: input.deltaInput ?? "",
-ceilingLights: input.ceilingLights,
-sidewallLights: input.sidewallLights
-};
-presets.push(preset);
-savePresetsToStorage(presets);
-el.presetName.value = "";
-showToast(t("presetSaved"));
-populatePresetDropdown();
-}
-
-function loadSelectedPreset() {
-const selectedIndex = el.presetSelect.value;
-if (selectedIndex === "") return;
-const presets = loadPresets();
-const preset = presets[Number(selectedIndex)];
-if (!preset) return;
-el.languageSelect.value = preset.language || "en";
-el.unitSelect.value = preset.unitSystem || "imperial";
-el.companyName.value = "";
-el.purchaseOrder.value = "";
-el.width.value = preset.width;
-el.height.value = preset.height;
-el.length.value = preset.length;
-el.deltaT.value = preset.deltaT;
-el.ceilingLights.value = preset.ceilingLights ?? 0;
-el.sidewallLights.value = preset.sidewallLights ?? 0;
-updateLabels();
-renderResults();
-showToast(t("presetLoaded"));
-}
-
-function deletePreset() {
-const selectedIndex = el.presetSelect.value;
-if (selectedIndex === "") {
-showToast(t("selectPreset"));
-return;
-}
-const presets = loadPresets();
-presets.splice(Number(selectedIndex), 1);
-savePresetsToStorage(presets);
-populatePresetDropdown();
-showToast(t("presetDeleted"));
-}
-
-function resetForm() {
-el.languageSelect.value = "en";
-el.unitSelect.value = "imperial";
-el.companyName.value = "";
-el.purchaseOrder.value = "";
-el.width.value = "14";
-el.height.value = "9";
-el.length.value = "27";
-el.deltaT.value = "";
-el.ceilingLights.value = "8";
-el.sidewallLights.value = "6";
-el.presetName.value = "";
-updateLabels();
-renderResults();
-showToast(t("resetDone"));
-}
-
-function getWallPn1() { return (el.wallPnInput1Gal.value || "").trim(); }
-function getWallPn5() { return (el.wallPnInput5Gal.value || "").trim(); }
-function getFloorPnValue() { return (el.floorPnInput.value || "").trim(); }
-function getClearPn1() { return (el.clearViewPnInput1Gal.value || "").trim(); }
-function getClearPn5() { return (el.clearViewPnInput5Gal.value || "").trim(); }
-
-function exportCsv() {
-const r = calculate();
-
-const wallArea = units() === "imperial"
-? `${formatNumber(r.wallAreaFt2, 0)} ft²`
-: `${formatNumber(r.wallAreaFt2 * APP.sqFtToSqM, 2)} m²`;
-
-const gallonsNeededDisplay = units() === "imperial"
-? `${formatNumber(r.gallonsNeeded, 2)} gal`
-: `${formatNumber(r.gallonsNeeded * APP.gallonToLiter, 2)} L`;
-
-const weight = units() === "imperial"
-? `${formatNumber(r.weightLb, 1)} lb`
-: `${formatNumber(r.weightLb * APP.lbToKg, 2)} kg`;
-
-const floorArea = units() === "imperial"
-? `${formatNumber(r.floorAreaFt2, 0)} ft²`
-: `${formatNumber(r.floorAreaFt2 * APP.sqFtToSqM, 2)} m²`;
-
-const glassArea = units() === "imperial"
-? `${formatNumber(r.glassAreaFt2, 0)} ft²`
-: `${formatNumber(r.glassAreaFt2 * APP.sqFtToSqM, 2)} m²`;
-
-const volume = units() === "imperial"
-? `${formatNumber(r.volumeFt3, 0)} ft³`
-: `${formatNumber(r.volumeFt3 * APP.cuFtToCuM, 2)} m³`;
-
-const clearViewNeeded = units() === "imperial"
-? `${formatNumber(r.clearViewGalMin, 2)} - ${formatNumber(r.clearViewGalMax, 2)} gal`
-: `${formatNumber(r.clearViewGalMin * APP.gallonToLiter, 2)} - ${formatNumber(r.clearViewGalMax * APP.gallonToLiter, 2)} L`;
-
-const rows = [
-["Language", lang()],
-["Units", units()],
-["Company Name", r.input.companyName],
-["Purchase Order", r.input.purchaseOrder],
-["Width Input", r.input.widthInput],
-["Height Input", r.input.heightInput],
-["Length Input", r.input.lengthInput],
-["Temperature Difference Input", r.input.deltaInput ?? ""],
-["Ceiling Lights", r.input.ceilingLights],
-["Sidewall Lights", r.input.sidewallLights],
-["Total Lights", r.totalLights],
-
-["Wall Area", wallArea],
-["Wall Product Needed", gallonsNeededDisplay],
-["Wall PN (1-Gal)", getWallPn1()],
-["Wall PN (5-Gal)", getWallPn5()],
-["Wall 1-Gal Containers", r.wallContainerPlan.oneContainers],
-["Wall 5-Gal Containers", r.wallContainerPlan.fiveContainers],
-["Wall Ordered Gallons", `${r.wallContainerPlan.orderedGallons} gal`],
-["Estimated Product Weight", weight],
-
-["Floor Area", floorArea],
-["Mats Needed", r.matsNeeded],
-["Floor PN", getFloorPnValue()],
-
-["Glass Area", glassArea],
-["Clear View Needed", clearViewNeeded],
-["Clear View PN (1-Gal)", getClearPn1()],
-["Clear View PN (5-Gal)", getClearPn5()],
-["Clear View 1-Gal Containers", r.clearViewContainerPlan.oneContainers],
-["Clear View 5-Gal Containers", r.clearViewContainerPlan.fiveContainers],
-["Clear View Order Quantity", `${r.clearViewOrderGallons} gal`],
-
-["Clear View Quarts", `${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`],
-["Clear View Pints", `${formatNumber(r.clearViewPtMin, 2)} - ${formatNumber(r.clearViewPtMax, 2)} pt`],
-
-["Booth Volume", volume],
-["Estimated Heat Load", r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : ""]
-];
-
-const csvContent = rows.map(row =>
-row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(",")
-).join("\n");
-
-const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-const url = URL.createObjectURL(blob);
-const link = document.createElement("a");
-link.href = url;
-link.download = "paint-booth-calculator-results.csv";
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
-URL.revokeObjectURL(url);
-showToast(t("csvExported"));
-}
-
-function emailOrder() {
-const r = calculate();
-
-const wallArea = units() === "imperial"
-? `${formatNumber(r.wallAreaFt2, 0)} ft²`
-: `${formatNumber(r.wallAreaFt2 * APP.sqFtToSqM, 2)} m²`;
-
-const productNeeded = units() === "imperial"
-? `${formatNumber(r.gallonsNeeded, 2)} gal`
-: `${formatNumber(r.gallonsNeeded * APP.gallonToLiter, 2)} L`;
-
-const wallPn1 = getWallPn1();
-const wallPn5 = getWallPn5();
-
-const weight = units() === "imperial"
-? `${formatNumber(r.weightLb, 1)} lb`
-: `${formatNumber(r.weightLb * APP.lbToKg, 2)} kg`;
-
-const floorArea = units() === "imperial"
-? `${formatNumber(r.floorAreaFt2, 0)} ft²`
-: `${formatNumber(r.floorAreaFt2 * APP.sqFtToSqM, 2)} m²`;
-
-const glassArea = units() === "imperial"
-? `${formatNumber(r.glassAreaFt2, 0)} ft²`
-: `${formatNumber(r.glassAreaFt2 * APP.sqFtToSqM, 2)} m²`;
-
-const volume = units() === "imperial"
-? `${formatNumber(r.volumeFt3, 0)} ft³`
-: `${formatNumber(r.volumeFt3 * APP.cuFtToCuM, 2)} m³`;
-
-const heatLoad = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "Not provided";
-
-const floorPn = getFloorPnValue();
-
-const clearPn1 = getClearPn1();
-const clearPn5 = getClearPn5();
-
-const clearViewNeededStr = units() === "imperial"
-? `${formatNumber(r.clearViewGalMin, 2)} - ${formatNumber(r.clearViewGalMax, 2)} gal`
-: `${formatNumber(r.clearViewGalMin * APP.gallonToLiter, 2)} - ${formatNumber(r.clearViewGalMax * APP.gallonToLiter, 2)} L`;
-
-const body = [
-`Company Name: ${r.input.companyName || ""}`,
-`Purchase Order: ${r.input.purchaseOrder || ""}`,
-``,
-`Booth Dimensions:`,
-`Width: ${r.input.widthInput}`,
-`Height: ${r.input.heightInput}`,
-`Length: ${r.input.lengthInput}`,
-`Units: ${units()}`,
-`Temperature Difference: ${r.input.deltaInput !== null ? r.input.deltaInput : ""}`,
-``,
-`White Out / Booth Coating:`,
-`Wall Area: ${wallArea}`,
-`Wall Product Needed: ${productNeeded}`,
-
-`Wall (1-Gal) PN: ${wallPn1} | Qty: ${r.wallContainerPlan.oneContainers} (${r.wallContainerPlan.oneContainers} gal)`,
-`Wall (5-Gal) PN: ${wallPn5} | Qty: ${r.wallContainerPlan.fiveContainers} (${r.wallContainerPlan.fiveContainers * 5} gal)`,
-
-`Wall Ordered Gallons: ${r.wallContainerPlan.orderedGallons} gal`,
-`Estimated Product Weight: ${weight}`,
-``,
-`Booth Mat:`,
-`Floor Area: ${floorArea}`,
-`Mats Needed: ${r.matsNeeded}`,
-`Floor PN: ${floorPn}`,
-``,
-`Clear View:`,
-`Ceiling Lights: ${r.input.ceilingLights}`,
-`Sidewall Lights: ${r.input.sidewallLights}`,
-`Total Lights: ${r.totalLights}`,
-`Clear View (1-Gal) PN: ${clearPn1} | Qty: ${r.clearViewContainerPlan.oneContainers} (${r.clearViewContainerPlan.oneContainers} gal)`,
-`Clear View (5-Gal) PN: ${clearPn5} | Qty: ${r.clearViewContainerPlan.fiveContainers} (${r.clearViewContainerPlan.fiveContainers * 5} gal)`,
-`Glass Area: ${glassArea}`,
-`Clear View Needed: ${clearViewNeededStr}`,
-`Equivalent Quarts: ${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`,
-`Equivalent Pints: ${formatNumber(r.clearViewPtMin, 2)} - ${formatNumber(r.clearViewPtMax, 2)} pt`,
-`Clear View Order Quantity: ${r.clearViewOrderGallons} gal`,
-``,
-`Heat:`,
-`Booth Volume: ${volume}`,
-`Estimated Heat Load: ${heatLoad}`
-].join("\n");
-
-const mailtoLink =
-`mailto:${APP.emailRecipients}?subject=${encodeURIComponent(APP.emailSubject)}&body=${encodeURIComponent(body)}`;
-
-window.location.href = mailtoLink;
-showToast(t("emailOpened"));
-}
-
-function attachEvents() {
-el.languageSelect.addEventListener("change", () => {
-updateLabels();
-renderResults();
-});
-el.unitSelect.addEventListener("change", () => {
-updateLabels();
-renderResults();
-});
-
-[
-el.companyName,
-el.purchaseOrder,
-el.width,
-el.height,
-el.length,
-el.deltaT,
-el.ceilingLights,
-el.sidewallLights
-].forEach(item => item.addEventListener("input", renderResults));
-
-el.savePresetBtn.addEventListener("click", savePreset);
-el.deletePresetBtn.addEventListener("click", deletePreset);
-el.resetBtn.addEventListener("click", resetForm);
-el.exportCsvBtn.addEventListener("click", exportCsv);
-el.emailOrderBtn.addEventListener("click", emailOrder);
-el.presetSelect.addEventListener("change", loadSelectedPreset);
-}
-
-function init() {
-el.companyName.value = "";
-el.purchaseOrder.value = "";
-updateLabels();
-
-// set defaults
-el.floorPnInput.value = APP.pnFloor;
-el.wallPnInput1Gal.value = APP.pnWallLow;
-el.wallPnInput5Gal.value = APP.pnWallHigh;
-el.clearViewPnInput1Gal.value = APP.pnClearViewLow;
-el.clearViewPnInput5Gal.value = APP.pnClearViewHigh;
-
-renderResults();
-attachEvents();
-}
-init();
+  // =========================
+  // Minimal functional logic
+  // (UI + sizing fixes are the focus here)
+  // =========================
+  const APP = {
+    wallCoverageSqFtPerGallon: 150,
+    wallWeightLbPerGallon: 8.6,
+    floorMatCoverageSqFt: 400,
+    glassSqFtPerLight: 8,
+    clearViewCoverageLowSqFtPerGallon: 400,
+    clearViewCoverageHighSqFtPerGallon: 500,
+    sqFtToSqM: 0.092903,
+    gallonToLiter: 3.78541,
+    lbToKg: 0.453592,
+    cuFtToCuM: 0.0283168,
+
+    presetKey: "paintBoothCalculatorPresets",
+    emailRecipients: "eric@bondingsolutions.net,jamillerplio@live.com",
+    emailSubject: "Like 90 order",
+
+    // ✅ defaults for split PN
+    pnWall1GalDefault: "10032",
+    pnWall5GalDefault: "10033",
+    pnFloor: "10050",
+    pnClearView: "10034",
+
+    // container sizes
+    wallContainer1Gal: 1,
+    wallContainer5Gal: 5
+  };
+
+  const TEXT = {
+    en: {
+      appTitle: "Paint Booth Calculator",
+      appSubtitle: "Calculate wall coating, floor mat, and Clear View requirements",
+      inputsTitle: "Booth Inputs",
+      companyNameLabel: "Company Name",
+      purchaseOrderLabel: "Purchase Order",
+      widthLabel: "Internal Width",
+      heightLabel: "Internal Height",
+      lengthLabel: "Internal Length",
+      deltaLabelImperial: "Temperature Difference (°F)",
+      deltaLabelMetric: "Temperature Difference (°C)",
+      lightSectionTitle: "Light Fixtures for Clear View",
+      ceilingLightsLabel: "Ceiling Light Fixtures",
+      sidewallLightsLabel: "Sidewall Light Fixtures",
+      presetSectionTitle: "Presets",
+      presetNameLabel: "Preset Name",
+      presetLoadLabel: "Load Preset",
+      savePresetBtn: "Save Preset",
+      deletePresetBtn: "Delete Preset",
+      resetBtn: "Reset",
+      exportSectionTitle: "Export / Order",
+      exportCsvBtn: "Export CSV",
+      emailOrderBtn: "Email Order",
+      noteText: "This calculator uses internal booth dimensions only. Openings and pits are not subtracted.",
+      resultsTitle: "Results",
+      wallSectionTitle: "Wall Coating",
+      wallAreaLabel: "Wall Area",
+      productNeededLabel: "Product Needed (Gallons)",
+      weightLabel: "Estimated Product Weight",
+      floorSectionTitle: "Floor Mat",
+      floorAreaLabel: "Floor Area",
+      matsLabel: "Mats Needed",
+      clearViewSectionTitle: "Clear View",
+      totalLightsLabel: "Total Lights",
+      glassAreaLabel: "Glass Area",
+      clearViewNeededLabel: "Clear View Needed",
+      clearViewQuartsLabel: "Equivalent Quarts",
+      clearViewPintsLabel: "Equivalent Pints",
+      clearViewOrderLabel: "Clear View Order Quantity",
+      heatSectionTitle: "Heat Estimate",
+      volumeLabel: "Booth Volume",
+      btuLabel: "Estimated Heat Load",
+      footerNote: "Coverage used: 150 sq ft per gallon for wall coating, and 400 sq ft per floor mat.",
+      companyPlaceholder: "Example: ABC Collision",
+      purchaseOrderPlaceholder: "Example: PO-12345",
+      presetPlaceholder: "Example: Standard Booth",
+      optionalPlaceholder: "Optional",
+      presetDefaultOption: "Select a saved preset",
+      presetSaved: "Preset saved",
+      presetDeleted: "Preset deleted",
+      presetLoaded: "Preset loaded",
+      selectPreset: "Please select a preset",
+      csvExported: "CSV exported",
+      resetDone: "Calculator reset",
+      emailOpened: "Email draft opened",
+      clearViewNote: "Based on 2 ft x 4 ft glass per light, at 400–500 sq ft per gallon. Minimum order is 1 gallon when Clear View is needed."
+    }
+  };
+
+  const el = {
+    languageSelect: document.getElementById("languageSelect"),
+    unitSelect: document.getElementById("unitSelect"),
+    companyName: document.getElementById("companyName"),
+    purchaseOrder: document.getElementById("purchaseOrder"),
+    width: document.getElementById("width"),
+    height: document.getElementById("height"),
+    length: document.getElementById("length"),
+    deltaT: document.getElementById("deltaT"),
+    ceilingLights: document.getElementById("ceilingLights"),
+    sidewallLights: document.getElementById("sidewallLights"),
+    presetName: document.getElementById("presetName"),
+    presetSelect: document.getElementById("presetSelect"),
+    savePresetBtn: document.getElementById("savePresetBtn"),
+    deletePresetBtn: document.getElementById("deletePresetBtn"),
+    resetBtn: document.getElementById("resetBtn"),
+    exportCsvBtn: document.getElementById("exportCsvBtn"),
+    emailOrderBtn: document.getElementById("emailOrderBtn"),
+    toast: document.getElementById("toast"),
+
+    appTitle: document.getElementById("appTitle"),
+    appSubtitle: document.getElementById("appSubtitle"),
+    inputsTitle: document.getElementById("inputsTitle"),
+    companyNameLabel: document.getElementById("companyNameLabel"),
+    purchaseOrderLabel: document.getElementById("purchaseOrderLabel"),
+    widthLabel: document.getElementById("widthLabel"),
+    heightLabel: document.getElementById("heightLabel"),
+    lengthLabel: document.getElementById("lengthLabel"),
+    deltaLabel: document.getElementById("deltaLabel"),
+    lightSectionTitle: document.getElementById("lightSectionTitle"),
+    ceilingLightsLabel: document.getElementById("ceilingLightsLabel"),
+    sidewallLightsLabel: document.getElementById("sidewallLightsLabel"),
+    presetSectionTitle: document.getElementById("presetSectionTitle"),
+    presetNameLabel: document.getElementById("presetNameLabel"),
+    presetLoadLabel: document.getElementById("presetLoadLabel"),
+    exportSectionTitle: document.getElementById("exportSectionTitle"),
+    noteText: document.getElementById("noteText"),
+    resultsTitle: document.getElementById("resultsTitle"),
+    wallSectionTitle: document.getElementById("wallSectionTitle"),
+    wallAreaLabel: document.getElementById("wallAreaLabel"),
+    productNeededLabel: document.getElementById("productNeededLabel"),
+    weightLabel: document.getElementById("weightLabel"),
+    floorSectionTitle: document.getElementById("floorSectionTitle"),
+    floorAreaLabel: document.getElementById("floorAreaLabel"),
+    matsLabel: document.getElementById("matsLabel"),
+    clearViewSectionTitle: document.getElementById("clearViewSectionTitle"),
+    totalLightsLabel: document.getElementById("totalLightsLabel"),
+    glassAreaLabel: document.getElementById("glassAreaLabel"),
+    clearViewNeededLabel: document.getElementById("clearViewNeededLabel"),
+    clearViewQuartsLabel: document.getElementById("clearViewQuartsLabel"),
+    clearViewPintsLabel: document.getElementById("clearViewPintsLabel"),
+    clearViewOrderLabel: document.getElementById("clearViewOrderLabel"),
+    clearViewNote: document.getElementById("clearViewNote"),
+    heatSectionTitle: document.getElementById("heatSectionTitle"),
+    volumeLabel: document.getElementById("volumeLabel"),
+    btuLabel: document.getElementById("btuLabel"),
+    footerNote: document.getElementById("footerNote"),
+
+    wallAreaResult: document.getElementById("wallAreaResult"),
+    productNeededResult: document.getElementById("productNeededResult"),
+    wallOneGalContainersResult: document.getElementById("wallOneGalContainersResult"),
+    wallFiveGalContainersResult: document.getElementById("wallFiveGalContainersResult"),
+    wallOrderedGallonsResult: document.getElementById("wallOrderedGallonsResult"),
+    weightResult: document.getElementById("weightResult"),
+
+    floorAreaResult: document.getElementById("floorAreaResult"),
+    matsResult: document.getElementById("matsResult"),
+    floorPnInput: document.getElementById("floorPnInput"),
+
+    totalLightsResult: document.getElementById("totalLightsResult"),
+    glassAreaResult: document.getElementById("glassAreaResult"),
+    clearViewNeededResult: document.getElementById("clearViewNeededResult"),
+    clearViewPnInput: document.getElementById("clearViewPnInput"),
+    clearViewQuartsResult: document.getElementById("clearViewQuartsResult"),
+    clearViewPintsResult: document.getElementById("clearViewPintsResult"),
+    clearViewOrderResult: document.getElementById("clearViewOrderResult"),
+
+    volumeResult: document.getElementById("volumeResult"),
+    btuResult: document.getElementById("btuResult"),
+
+    // ✅ split PN inputs
+    wallPn1GalInput: document.getElementById("wallPn1GalInput"),
+    wallPn5GalInput: document.getElementById("wallPn5GalInput")
+  };
+
+  function lang() { return el.languageSelect.value; }
+  function units() { return el.unitSelect.value; }
+  function t(key) { return (TEXT[lang()][key] ?? TEXT.en[key]); }
+
+  function showToast(message) {
+    el.toast.textContent = message;
+    el.toast.classList.add("show");
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(() => el.toast.classList.remove("show"), 1800);
+  }
+
+  function formatNumber(value, decimals = 2) {
+    return Number(value).toLocaleString(undefined, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+  }
+
+  function convertInputToFeet(value) {
+    return units() === "imperial" ? value : value * 3.28084;
+  }
+
+  function getInputs() {
+    return {
+      companyName: el.companyName.value.trim(),
+      purchaseOrder: el.purchaseOrder.value.trim(),
+      widthInput: parseFloat(el.width.value) || 0,
+      heightInput: parseFloat(el.height.value) || 0,
+      lengthInput: parseFloat(el.length.value) || 0,
+      deltaInput: el.deltaT.value === "" ? null : parseFloat(el.deltaT.value),
+      ceilingLights: parseInt(el.ceilingLights.value, 10) || 0,
+      sidewallLights: parseInt(el.sidewallLights.value, 10) || 0
+    };
+  }
+
+  function chooseWallContainers(gallonsNeeded) {
+    const safeNeeded = Math.max(0, gallonsNeeded || 0);
+    const neededRoundedUp = Math.max(0, Math.ceil(safeNeeded));
+
+    const fiveGal = APP.wallContainer5Gal;
+    const oneGal = APP.wallContainer1Gal;
+
+    const fiveContainers = Math.floor(neededRoundedUp / fiveGal);
+    const remainingAfterFive = neededRoundedUp - fiveContainers * fiveGal;
+    const oneContainers = remainingAfterFive / oneGal;
+
+    const orderedGallons = fiveContainers * fiveGal + oneContainers * oneGal;
+
+    return { neededRoundedUp, fiveContainers, oneContainers, orderedGallons };
+  }
+
+  function calculate() {
+    const input = getInputs();
+
+    const widthFt = convertInputToFeet(input.widthInput);
+    const heightFt = convertInputToFeet(input.heightInput);
+    const lengthFt = convertInputToFeet(input.lengthInput);
+
+    const wallAreaFt2 = 2 * (widthFt * heightFt) + 2 * (lengthFt * heightFt);
+    const gallonsNeeded = wallAreaFt2 / APP.wallCoverageSqFtPerGallon;
+
+    const wallContainerPlan = chooseWallContainers(gallonsNeeded);
+    const weightLb = gallonsNeeded * APP.wallWeightLbPerGallon;
+
+    const floorAreaFt2 = widthFt * lengthFt;
+    const matsNeeded = Math.ceil(floorAreaFt2 / APP.floorMatCoverageSqFt);
+
+    const totalLights = input.ceilingLights + input.sidewallLights;
+    const glassAreaFt2 = totalLights * APP.glassSqFtPerLight;
+
+    const clearViewGalMin = glassAreaFt2 / APP.clearViewCoverageHighSqFtPerGallon;
+    const clearViewGalMax = glassAreaFt2 / APP.clearViewCoverageLowSqFtPerGallon;
+    const clearViewOrderGallons = totalLights > 0 ? Math.max(1, Math.ceil(clearViewGalMax)) : 0;
+
+    const clearViewQtMin = clearViewGalMin * 4;
+    const clearViewQtMax = clearViewGalMax * 4;
+
+    const clearViewPtMin = clearViewGalMin * 8;
+    const clearViewPtMax = clearViewGalMax * 8;
+
+    const volumeFt3 = widthFt * heightFt * lengthFt;
+
+    let deltaF = null;
+    if (input.deltaInput !== null && !isNaN(input.deltaInput)) {
+      deltaF = units() === "imperial" ? input.deltaInput : input.deltaInput * 9 / 5;
+    }
+
+    const btu = deltaF !== null ? volumeFt3 * deltaF * 0.24 : null;
+
+    return {
+      input,
+      wallAreaFt2,
+      gallonsNeeded,
+      wallContainerPlan,
+      weightLb,
+      floorAreaFt2,
+      matsNeeded,
+      totalLights,
+      glassAreaFt2,
+      clearViewGalMin,
+      clearViewGalMax,
+      clearViewQtMin,
+      clearViewQtMax,
+      clearViewPtMin,
+      clearViewPtMax,
+      clearViewOrderGallons,
+      volumeFt3,
+      btu
+    };
+  }
+
+  function renderResults() {
+    const r = calculate();
+
+    if (units() === "imperial") {
+      el.wallAreaResult.textContent = `${formatNumber(r.wallAreaFt2, 0)} ft²`;
+      el.productNeededResult.textContent = `${formatNumber(r.gallonsNeeded, 2)} gal`;
+      el.weightResult.textContent = `${formatNumber(r.weightLb, 1)} lb`;
+      el.floorAreaResult.textContent = `${formatNumber(r.floorAreaFt2, 0)} ft²`;
+      el.glassAreaResult.textContent = `${formatNumber(r.glassAreaFt2, 0)} ft²`;
+      el.clearViewNeededResult.textContent =
+        `${formatNumber(r.clearViewGalMin, 2)} - ${formatNumber(r.clearViewGalMax, 2)} gal`;
+      el.volumeResult.textContent = `${formatNumber(r.volumeFt3, 0)} ft³`;
+    } else {
+      el.wallAreaResult.textContent = `${formatNumber(r.wallAreaFt2 * APP.sqFtToSqM, 2)} m²`;
+      el.productNeededResult.textContent = `${formatNumber(r.gallonsNeeded * APP.gallonToLiter, 2)} L`;
+      el.weightResult.textContent = `${formatNumber(r.weightLb * APP.lbToKg, 2)} kg`;
+      el.floorAreaResult.textContent = `${formatNumber(r.floorAreaFt2 * APP.sqFtToSqM, 2)} m²`;
+      el.glassAreaResult.textContent = `${formatNumber(r.glassAreaFt2 * APP.sqFtToSqM, 2)} m²`;
+      el.clearViewNeededResult.textContent =
+        `${formatNumber(r.clearViewGalMin * APP.gallonToLiter, 2)} - ${formatNumber(r.clearViewGalMax * APP.gallonToLiter, 2)} L`;
+      el.volumeResult.textContent = `${formatNumber(r.volumeFt3 * APP.cuFtToCuM, 2)} m³`;
+    }
+
+    el.wallOneGalContainersResult.textContent =
+      r.wallContainerPlan.oneContainers > 0 ? `${formatNumber(r.wallContainerPlan.oneContainers, 0)}` : "0";
+    el.wallFiveGalContainersResult.textContent =
+      r.wallContainerPlan.fiveContainers > 0 ? `${formatNumber(r.wallContainerPlan.fiveContainers, 0)}` : "0";
+
+    el.wallOrderedGallonsResult.textContent = `${formatNumber(r.wallContainerPlan.orderedGallons, 0)} gal`;
+    el.matsResult.textContent = `${formatNumber(r.matsNeeded, 0)}`;
+    el.totalLightsResult.textContent = `${formatNumber(r.totalLights, 0)}`;
+
+    el.clearViewQuartsResult.textContent =
+      `${formatNumber(r.clearViewQtMin, 2)} - ${formatNumber(r.clearViewQtMax, 2)} qt`;
+    el.clearViewPintsResult.textContent =
+      `${formatNumber(r.clearViewPtMin, 2)} - ${formatNumber(r.clearViewPtMax, 2)} pt`;
+    el.clearViewOrderResult.textContent =
+      r.clearViewOrderGallons > 0 ? `${formatNumber(r.clearViewOrderGallons, 0)} gal` : `0 gal`;
+
+    el.btuResult.textContent = r.btu !== null ? `${formatNumber(r.btu, 0)} BTU/hr` : "-";
+
+    // ✅ PN auto-fill defaults (restoring the clean layout; edit-handling can be re-added if needed)
+    el.wallPn1GalInput.value = APP.pnWall1GalDefault;
+    el.wallPn5GalInput.value = APP.pnWall5GalDefault;
+    el.floorPnInput.value = APP.pnFloor;
+    el.clearViewPnInput.value = APP.pnClearView;
+  }
+
+  function updateLabels() {
+    const isImperial = units() === "imperial";
+
+    el.appTitle.textContent = t("appTitle");
+    el.appSubtitle.textContent = t("appSubtitle");
+    el.inputsTitle.textContent = t("inputsTitle");
+    el.companyNameLabel.textContent = t("companyNameLabel");
+    el.purchaseOrderLabel.textContent = t("purchaseOrderLabel");
+    el.widthLabel.textContent = `${t("widthLabel")} ${isImperial ? "(ft)" : "(m)"}`;
+    el.heightLabel.textContent = `${t("heightLabel")} ${isImperial ? "(ft)" : "(m)"}`;
+    el.lengthLabel.textContent = `${t("lengthLabel")} ${isImperial ? "(ft)" : "(m)"}`;
+    el.deltaLabel.textContent = isImperial ? t("deltaLabelImperial") : t("deltaLabelMetric");
+
+    el.lightSectionTitle.textContent = t("lightSectionTitle");
+    el.ceilingLightsLabel.textContent = t("ceilingLightsLabel");
+    el.sidewallLightsLabel.textContent = t("sidewallLightsLabel");
+    el.presetSectionTitle.textContent = t("presetSectionTitle");
+    el.presetNameLabel.textContent = t("presetNameLabel");
+    el.presetLoadLabel.textContent = t("presetLoadLabel");
+
+    el.exportSectionTitle.textContent = t("exportSectionTitle");
+    el.noteText.textContent = t("noteText");
+
+    el.resultsTitle.textContent = t("resultsTitle");
+    el.wallSectionTitle.textContent = t("wallSectionTitle");
+    el.wallAreaLabel.textContent = t("wallAreaLabel");
+    el.productNeededLabel.textContent = t("productNeededLabel");
+    el.weightLabel.textContent = t("weightLabel");
+
+    el.floorSectionTitle.textContent = t("floorSectionTitle");
+    el.floorAreaLabel.textContent = t("floorAreaLabel");
+    el.matsLabel.textContent = t("matsLabel");
+
+    el.clearViewSectionTitle.textContent = t("clearViewSectionTitle");
+    el.totalLightsLabel.textContent = t("totalLightsLabel");
+    el.glassAreaLabel.textContent = t("glassAreaLabel");
+    el.clearViewNeededLabel.textContent = t("clearViewNeededLabel");
+    el.clearViewQuartsLabel.textContent = t("clearViewQuartsLabel");
+    el.clearViewPintsLabel.textContent = t("clearViewPintsLabel");
+    el.clearViewOrderLabel.textContent = t("clearViewOrderLabel");
+    el.clearViewNote.textContent = t("clearViewNote");
+
+    el.heatSectionTitle.textContent = t("heatSectionTitle");
+    el.volumeLabel.textContent = t("volumeLabel");
+    el.btuLabel.textContent = t("btuLabel");
+    el.footerNote.textContent = t("footerNote");
+
+    el.companyName.placeholder = t("companyPlaceholder");
+    el.purchaseOrder.placeholder = t("purchaseOrderPlaceholder");
+    el.presetName.placeholder = t("presetPlaceholder");
+  }
+
+  function attachEvents() {
+    [el.companyName, el.purchaseOrder, el.width, el.height, el.length, el.deltaT, el.ceilingLights, el.sidewallLights]
+      .forEach(item => item.addEventListener("input", renderResults));
+
+    el.languageSelect.addEventListener("change", () => { updateLabels(); renderResults(); });
+    el.unitSelect.addEventListener("change", () => { updateLabels(); renderResults(); });
+
+    el.resetBtn.addEventListener("click", () => {
+      el.languageSelect.value = "en";
+      el.unitSelect.value = "imperial";
+      el.companyName.value = "";
+      el.purchaseOrder.value = "";
+      el.width.value = "14";
+      el.height.value = "9";
+      el.length.value = "27";
+      el.deltaT.value = "";
+      el.ceilingLights.value = "8";
+      el.sidewallLights.value = "6";
+      el.presetName.value = "";
+      updateLabels();
+      renderResults();
+      showToast(t("resetDone"));
+    });
+
+    // export/email buttons: placeholders so the UI doesn't break
+    el.exportCsvBtn.addEventListener("click", () => showToast("CSV export (hook up your existing logic)"));
+    el.emailOrderBtn.addEventListener("click", () => showToast("Email order (hook up your existing logic)"));
+  }
+
+  function init() {
+    el.wallPn1GalInput.value = APP.pnWall1GalDefault;
+    el.wallPn5GalInput.value = APP.pnWall5GalDefault;
+    el.floorPnInput.value = APP.pnFloor;
+    el.clearViewPnInput.value = APP.pnClearView;
+
+    updateLabels();
+    renderResults();
+    attachEvents();
+  }
+
+  init();
 </script>
 </body>
 </html>
